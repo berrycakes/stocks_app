@@ -1,5 +1,5 @@
 class TradersController < ApplicationController
-  before_action :set_trader, only: %i[ show edit update destroy ]
+  before_action :set_trader, only: %i[show edit update destroy]
 
   # GET /traders or /traders.json
   def index
@@ -7,8 +7,7 @@ class TradersController < ApplicationController
   end
 
   # GET /traders/1 or /traders/1.json
-  def show
-  end
+  def show; end
 
   # GET /traders/new
   def new
@@ -16,8 +15,7 @@ class TradersController < ApplicationController
   end
 
   # GET /traders/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /traders or /traders.json
   def create
@@ -25,7 +23,7 @@ class TradersController < ApplicationController
 
     respond_to do |format|
       if @trader.save
-        format.html { redirect_to trader_url(@trader), notice: "Trader was successfully created." }
+        format.html { redirect_to trader_url(@trader), notice: 'Trader was successfully created.' }
         format.json { render :show, status: :created, location: @trader }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +36,7 @@ class TradersController < ApplicationController
   def update
     respond_to do |format|
       if @trader.update(trader_params)
-        format.html { redirect_to trader_url(@trader), notice: "Trader was successfully updated." }
+        format.html { redirect_to trader_url(@trader), notice: 'Trader was successfully updated.' }
         format.json { render :show, status: :ok, location: @trader }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +50,20 @@ class TradersController < ApplicationController
     @trader.destroy
 
     respond_to do |format|
-      format.html { redirect_to traders_url, notice: "Trader was successfully destroyed." }
+      format.html { redirect_to traders_url, notice: 'Trader was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_trader
-      @trader = Trader.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def trader_params
-      params.require(:trader).permit(:first_name, :last_name, :mobile_number, :approved, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_trader
+    @trader = Trader.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def trader_params
+    params.require(:trader).permit(:first_name, :last_name, :mobile_number, :approved, :user_id)
+  end
 end
