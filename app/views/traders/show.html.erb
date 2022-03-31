@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @trader.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @trader.last_name %>
+</p>
+
+<p>
+  <strong>Mobile number:</strong>
+  <%= @trader.mobile_number %>
+</p>
+
+<p>
+  <strong>Approved:</strong>
+  <%= @trader.approved %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @trader.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_trader_path(@trader) %> |
+<%= link_to 'Back', traders_path %>
