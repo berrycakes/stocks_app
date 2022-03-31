@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::Base
   # To edit strong parameters in devise forms
-  # before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # Method used to add permitted attributes for devise
-  # def configure_permitted_parameters
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name mobile_number approved admin])
-  #   devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name mobile_number approved admin])
-  # end
+  # Add nested attributes/strong parameters for devise user
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up,
+                                      keys: [trader_attributes: %i[first_name last_name mobile_number approved],
+                                             admin_attributes: %i[first_name last_name mobile_number]])
+    devise_parameter_sanitizer.permit(:account_update,
+                                      keys: [trader_attributes: %i[first_name last_name mobile_number approved],
+                                             admin_attributes: %i[first_name last_name mobile_number]])
+  end
 end
