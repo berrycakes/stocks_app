@@ -54,3 +54,11 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Fetching APIs
+gem 'httparty'
+
+#convert erb to haml
+gem "erb2haml", :group => :development
+
+gem "haml"

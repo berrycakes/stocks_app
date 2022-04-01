@@ -1,0 +1,26 @@
+= form_with(model: stock) do |form|
+  - if stock.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(stock.errors.count, "error")
+        prohibited this stock from being saved:
+      %ul
+        - stock.errors.each do |error|
+          %li= error.full_message
+  .field
+    = form.label :name
+    = form.text_field :name
+  .field
+    = form.label :description
+    = form.text_field :description
+  .field
+    = form.label :maxsupply
+    = form.text_field :maxsupply
+  .field
+    = form.label :currency_symbol
+    = form.text_field :currency_symbol
+  .field
+    = form.label :slug
+    = form.text_field :slug
+  .actions
+    = form.submit

@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @stock.name
+%p
+  %strong Description:
+  = @stock.description
+%p
+  %strong Maxsupply:
+  = @stock.maxsupply
+%p
+  %strong Currency symbol:
+  = @stock.currency_symbol
+%p
+  %strong Slug:
+  = @stock.slug
+= link_to 'Edit', edit_stock_path(@stock)
+|
+= link_to 'Back', stocks_path
