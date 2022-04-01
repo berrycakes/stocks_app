@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  resources :stocks
+  post 'search', to: 'stocks#search'
+  post 'calculate', to: 'stocks#calculate'
+  
   devise_for :users, controllers: {
     # Used to modify controller for registrations
     # e.g. sign up and account update

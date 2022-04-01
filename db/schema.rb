@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 20_220_401_083_926) do
     t.index ['user_id'], name: 'index_admins_on_user_id'
   end
 
+  create_table "stocks", force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.bigint "max_supply"
+    t.string "symbol"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+
+
   create_table 'traders', force: :cascade do |t|
     t.string 'first_name', default: ''
     t.string 'last_name', default: ''
