@@ -28,7 +28,6 @@
           %td= number_to_percentage(stock.current_daily_change)
           %td= number_to_currency(stock.current_ath, unit: "₱ ", separator: ".", delimiter: ",").to_s
           - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
-          - minimum = (stock.weekly_sparkline.min).to_f
           - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}}
           %td= area_chart(sparkline_data, options)
         - else
