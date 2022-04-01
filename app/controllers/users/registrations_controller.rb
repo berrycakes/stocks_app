@@ -4,8 +4,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  # Skips the method :require_no_authentication for new and create
-  # Used to allow looged in Users to create another user
+  # Used to allow logged in Admin Users to create another user
+  before_action :authenticate_user!, :redirect_unless_admin,  only: %i[new create]
   skip_before_action :require_no_authentication, only: %i[new create]
 
   # creates an alias 'devise_new' from Parent Class method 'new' so the 'new' method of Parent Class can be called in other methods in the children class
@@ -86,9 +86,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
+  private
 
   # Overrides sign_up method of RegistrationsController that logs user in after signing up
   def sign_up(resource_name, resource); end
+
+  def redirect_unless_admin
+    return if current_user.try(:role) == 'admin' || !user_signed_in?
+
+    flash[:error] = 'Forbidden path'
+    redirect_to root_path
+  end
 
   def build_association(role)
     case role
