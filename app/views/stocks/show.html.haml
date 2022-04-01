@@ -1,0 +1,50 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @stock.name
+%p
+  %strong Icon:
+  = @stock.image
+%p
+  %strong slug:
+  = @stock.slug
+%p
+  %strong Currency symbol:
+  = @stock.symbol
+%p
+  %strong Current Price:
+  = @stock.current_price
+
+%p
+  %strong Current MC:
+  = @stock.current_market_cap
+
+%p
+  %strong 24h High:
+  = @stock.current_daily_high
+
+%p
+  %strong 24h Low:
+  = @stock.current_daily_low
+
+%p
+  %strong % change
+  = number_to_percentage(@stock.current_daily_change)
+%p
+  %strong All-time high:
+  = @stock.current_ath
+
+-candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}}}
+-candlestick_data = @stock.get_ohlc.map { |x| [x.shift,  x.drop(0)]}
+= candlestick_chart(candlestick_data, candlestick_options)
+
+
+
+
+
+
+
+
+= link_to 'Edit', edit_stock_path(@stock)
+|
+= link_to 'Back', stocks_path

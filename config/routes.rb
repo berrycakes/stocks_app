@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :stocks
+  post 'search', to: 'stocks#search'
+  post 'calculate', to: 'stocks#calculate'
+
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # Devise scope is used to allow creation of customized paths
   devise_scope :user do
     get '/admins/new_user', to: 'users/registrations#new_admin', as: 'new_user_admin'
