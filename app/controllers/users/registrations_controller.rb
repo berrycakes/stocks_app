@@ -17,12 +17,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # super
   # end
 
-  def new_admin
-    devise_new do |user|
-      user.build_admin
-    end
-  end
-
   # POST /resource
   def create
     build_resource(sign_up_params)
