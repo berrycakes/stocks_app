@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # Devise scope is used to allow creation of customized paths
   devise_scope :user do
     get '/admins/new_user', to: 'users/registrations#new_admin', as: 'new_user_admin'
     devise_for :users, controllers: {
