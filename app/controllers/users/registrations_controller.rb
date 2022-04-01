@@ -13,9 +13,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   # Used for nesting fields for trader under User form
-  def new
-    super(&:build_trader)
-  end
+  # def new
+  # super
+  # end
 
   def new_admin
     devise_new do |user|
@@ -24,9 +24,38 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    build_resource(sign_up_params)
+    # Add user.build_trader
+    # code does not work build_trader is only added as a block
+    # for further studying
+    # resource.build_trader
+    build_association(resource.role)
+
+    # Prevents malicious injection of admin role on account creation
+    if resource.role == 'admin' && (current_user.nil? ? !user_signed_in? : current_user.role != 'admin')
+      redirect_to root_path, notice: 'Not authorized to create role'
+      return
+    end
+
+    resource.save
+
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -66,6 +95,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Overrides sign_up method of RegistrationsController that logs user in after signing up
   def sign_up(resource_name, resource); end
+
+  def build_association(role)
+    case role
+    when 'admin'
+      resource.build_admin
+    when 'trader'
+      resource.build_trader
+    else
+      'Error'
+    end
+  end
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
