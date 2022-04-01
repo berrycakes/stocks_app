@@ -1,7 +1,6 @@
 class StocksController < ApplicationController
   before_action :set_stock, only: %i[ show edit update destroy get_market_data]
-  before_action :set_market_data
-  # GET /stocks or /stocks.json
+
   def index
     @stocks = Stock.all
   end
@@ -66,18 +65,6 @@ class StocksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def stock_params
       params.require(:stock).permit(:name, :description, :maxsupply, :currency_symbol, :slug)
-    end
-
-    def get_market_data(currency)
-      ids = Stock.select(:slug).map(&:slug).join(",")
-      url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=#{currency.parameterize}&order=market_cap_desc&per_page=250&page=1&sparkline=true"
-      request = HTTParty.get(url)
-      response = JSON.parse(request.body)
-
-    end
-
-    def set_market_data
-      @market_data = get_market_data("php")
     end
 
 end

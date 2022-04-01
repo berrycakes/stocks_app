@@ -3,17 +3,41 @@
   %strong Name:
   = @stock.name
 %p
-  %strong Description:
-  = @stock.description
+  %strong Icon:
+  = @stock.image
 %p
-  %strong Maxsupply:
-  = @stock.maxsupply
+  %strong slug:
+  = @stock.slug
 %p
   %strong Currency symbol:
-  = @stock.currency_symbol
+  = @stock.symbol
 %p
-  %strong Slug:
-  = @stock.slug
+  %strong Current Price:
+  = @stock.current_price
+
+%p
+  %strong Current MC:
+  = @stock.current_market_cap
+
+%p
+  %strong 24h High:
+  = @stock.current_daily_high
+
+%p
+  %strong 24h Low:
+  = @stock.current_daily_low
+
+%p
+  %strong % change
+  = number_to_percentage(@stock.current_daily_change)
+%p
+  %strong All-time high:
+  = @stock.current_ath
+
+=@stock.weekly_sparkline
+
+
+
 = link_to 'Edit', edit_stock_path(@stock)
 |
 = link_to 'Back', stocks_path
