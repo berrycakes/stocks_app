@@ -62,3 +62,10 @@ gem 'httparty'
 gem "erb2haml", :group => :development
 
 gem "haml"
+
+#add chart == yarn add chartkick chart.js
+gem "chartkick"
+gem 'groupdate'
+
+#better chart? yarn add apexcharts
+gem 'apexcharts', '~> 0.1.10'

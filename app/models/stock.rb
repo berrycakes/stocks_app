@@ -42,9 +42,15 @@ class Stock < ApplicationRecord
         self.get_data()[0].dig("ath")
     end
 
+    # used for minicharts
     def weekly_sparkline
         self.get_data()[0].dig("sparkline_in_7d", "price")
     end
 
-
+    # used for individual big charts
+    def get_ohlc
+        url = "https://api.coingecko.com/api/v3/coins/#{self.slug}/ohlc?vs_currency=php&days=7"
+        request = HTTParty.get(url)
+        response = JSON.parse(request.body)
+    end
 end

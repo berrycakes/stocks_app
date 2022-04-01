@@ -34,7 +34,15 @@
   %strong All-time high:
   = @stock.current_ath
 
-=@stock.weekly_sparkline
+-candlestick_options = {plot_options: {candlestick: {colors: {upward: '#3C90EB',downward: '#DF7D46'}}}}
+-candlestick_data = @stock.get_ohlc.map { |x| [x.shift,  x.drop(0)]}
+= candlestick_chart(@stock.get_ohlc, candlestick_options)
+=candlestick_data
+
+
+
+
+
 
 
 
