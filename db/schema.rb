@@ -15,16 +15,6 @@ ActiveRecord::Schema.define(version: 2022_03_31_123906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "stocks", force: :cascade do |t|
-    t.string "name"
-    t.string "image"
-    t.bigint "max_supply"
-    t.string "symbol"
-    t.string "slug"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "admins", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -33,6 +23,16 @@ ActiveRecord::Schema.define(version: 2022_03_31_123906) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_admins_on_user_id"
+  end
+
+  create_table "stocks", force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.bigint "max_supply"
+    t.string "symbol"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "traders", force: :cascade do |t|

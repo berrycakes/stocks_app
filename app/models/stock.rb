@@ -52,5 +52,6 @@ class Stock < ApplicationRecord
         url = "https://api.coingecko.com/api/v3/coins/#{self.slug}/ohlc?vs_currency=php&days=7"
         request = HTTParty.get(url)
         response = JSON.parse(request.body)
+        response.map { |x| [Time.at(x.shift).to_datetime,  x.drop(0)]}
     end
 end
