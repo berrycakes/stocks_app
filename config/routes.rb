@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :transactions
   resources :stocks
   post 'search', to: 'stocks#search'
   post 'calculate', to: 'stocks#calculate'
