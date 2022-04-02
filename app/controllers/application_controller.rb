@@ -5,8 +5,9 @@ class ApplicationController < ActionController::Base
   # Add nested attributes/strong parameters for devise user
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-                                      keys: [trader_attributes: %i[first_name last_name mobile_number approved],
-                                             admin_attributes: %i[first_name last_name mobile_number]])
+                                      keys: [:role,
+                                             { trader_attributes: %i[first_name last_name mobile_number approved],
+                                               admin_attributes: %i[first_name last_name mobile_number] }])
     devise_parameter_sanitizer.permit(:account_update,
                                       keys: [trader_attributes: %i[first_name last_name mobile_number approved],
                                              admin_attributes: %i[first_name last_name mobile_number]])
