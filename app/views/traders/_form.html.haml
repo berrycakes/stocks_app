@@ -1,0 +1,26 @@
+= form_with(model: trader) do |form|
+  - if trader.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(trader.errors.count, "error")
+        prohibited this trader from being saved:
+      %ul
+        - trader.errors.each do |error|
+          %li= error.full_message
+  .field
+    = form.label :first_name
+    = form.text_field :first_name
+  .field
+    = form.label :last_name
+    = form.text_field :last_name
+  .field
+    = form.label :mobile_number
+    = form.text_field :mobile_number
+  .field
+    = form.label :approved
+    = form.check_box :approved
+  .field
+    = form.label :user_id
+    = form.text_field :user_id
+  .actions
+    = form.submit
