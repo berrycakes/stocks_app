@@ -37,10 +37,12 @@
 
 .modal_buy
   %p
-    %strong Available P:
-    = 'insert available balance here'
+    %strong Available: insert available balance here
   = render 'transaction_buy_form', transaction: @transaction
 .modal_sell
+  %p
+    %strong 
+    = "Available:  #{@stock.symbol}"
   = render 'transaction_sell_form', transaction: @transaction
 
 -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}}, }

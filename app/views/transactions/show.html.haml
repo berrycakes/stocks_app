@@ -3,8 +3,8 @@
   %strong Stock:
   = @transaction.stock_name
 %p
-  %strong User:
-  = @transaction.user_id
+  %strong Trader:
+  = @transaction.trader_id
 %p
   %strong Stock share:
   = @transaction.stock_share
@@ -18,6 +18,4 @@
   %strong Total Price:
   = @transaction.total_price
 
-= link_to 'Edit', edit_transaction_path(@transaction)
-|
-= link_to 'Back', transactions_path
+= link_to 'Portfolio', portfolio_path

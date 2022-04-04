@@ -13,7 +13,11 @@ class TransactionsController < ApplicationController
   # GET /transactions/portfolio
   def portfolio
     @stocks = Stock.all
-    @transactions = Transaction.all
+    if current_user && current_user.trader
+      @transactions = Transaction.where(:trader_id => current_user.trader)
+    else
+      @transactions = Transaction.where(:trader_id => 1)
+    end
   end
 
   # GET /transactions/1/edit
@@ -27,7 +31,7 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
-        format.json { render :show, status: :created, location: @transaction }
+        format.json { render :portfolio, status: :created, location: @transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
@@ -66,6 +70,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:stock_id, :user_id, :stock_share, :date, :price)
+      params.require(:transaction).permit(:stock_id, :trader_id, :transaction_type, :stock_share, :date, :price)
     end
 end

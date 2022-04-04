@@ -1,6 +1,10 @@
 class Transaction < ApplicationRecord
   belongs_to :stock
-  belongs_to :user
+  belongs_to :trader
+
+  def stock_name
+    Stock.find(self.stock_id).name
+  end
 
   def stock_symbol
     Stock.find(self.stock_id).symbol
@@ -12,6 +16,9 @@ class Transaction < ApplicationRecord
 
   def current_amount
     Stock.find(self.stock_id).current_price * self.stock_share
+  end
+
+  def self.available_stock_share(stock_id, trader_id)
   end
 
   def profit_loss

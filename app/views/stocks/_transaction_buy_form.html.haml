@@ -7,19 +7,24 @@
       %ul
         - transaction.errors.each do |error|
           %li= error.full_message
+    
   .field
-    = form.hidden_field :stock_id, :value => @stock.id
+  - if current_user && current_user.trader
+    = form.hidden_field :trader_id, :value => current_user.trader
+  - else
+    = form.hidden_field :trader_id, :value => 1
   .field
-    = form.hidden_field :user_id, :value => 1
-  -# to pass current_user.trader instead of 1
-  .field
-    = form.label :stock_share
-    = form.text_field :stock_share
+    = form.hidden_field :stock_id, :value => @stock.id   
   .field
     = form.hidden_field :date, :value => DateTime.current 
   .field
     = form.hidden_field :price, :value => @stock.current_price
-    
+  .field
+    = form.hidden_field :transaction_type, :value => "buy"
+  .field
+    = form.label :stock_share
+    = form.text_field :stock_share
+  
   .actions
     = form.submit "Buy #{@stock.name.titleize}"
 

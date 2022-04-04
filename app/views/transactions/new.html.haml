@@ -1,0 +1,11 @@
+%h1 New Transaction
+- if @transaction.errors.any?
+    #error_explanation
+        %h2
+            = pluralize(@transaction.errors.count, "error")
+        prohibited this transaction from being saved:
+        %ul
+        - @transaction.errors.each do |error|
+            %li= error.full_message
+
+= link_to 'Back', transactions_path
