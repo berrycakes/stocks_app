@@ -5,6 +5,7 @@
     %tr
       %th First name
       %th Last name
+      %th Email
       %th Mobile number
       %th Approved
       %th User
@@ -14,6 +15,7 @@
       %tr
         %td= trader.first_name
         %td= trader.last_name
+        %td= trader.user.email
         %td= trader.mobile_number
         %td= trader.approved
         %td= trader.user_id
