@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+
+  resources :transactions
+  resources :stocks
+  post 'search', to: 'stocks#search'
+  post 'calculate', to: 'stocks#calculate'
+  
   devise_for :users, controllers: {
     # Used to modify controller for registrations
     # e.g. sign up and account update
@@ -6,12 +12,9 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :stocks
-  post 'search', to: 'stocks#search'
-  post 'calculate', to: 'stocks#calculate'
-
   resources :admins
   resources :traders
+  get 'portfolio', to: 'transactions#portfolio'
 
   root 'home#index'
 end

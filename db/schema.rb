@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_083926) do
+ActiveRecord::Schema.define(version: 2022_04_04_032311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(version: 2022_04_01_083926) do
     t.index ["user_id"], name: "index_traders_on_user_id"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "stock_id", null: false
+    t.decimal "stock_share"
+    t.datetime "date"
+    t.decimal "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "transaction_type"
+    t.bigint "trader_id"
+    t.index ["stock_id"], name: "index_transactions_on_stock_id"
+    t.index ["trader_id"], name: "index_transactions_on_trader_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -65,4 +78,6 @@ ActiveRecord::Schema.define(version: 2022_04_01_083926) do
 
   add_foreign_key "admins", "users"
   add_foreign_key "traders", "users"
+  add_foreign_key "transactions", "stocks"
+  add_foreign_key "transactions", "traders"
 end
