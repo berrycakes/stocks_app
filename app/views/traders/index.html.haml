@@ -20,7 +20,7 @@
         %td= trader.approved
         %td= trader.user_id
         %td= link_to 'Show', trader
-        %td= link_to 'Edit', edit_trader_path(trader)
+        %td= link_to 'Edit', admin_edit_trader_path(trader.user)
         %td= link_to 'Destroy', trader, method: :delete, data: { confirm: 'Are you sure?' }
 %br/
 = link_to 'New Trader', new_trader_path
