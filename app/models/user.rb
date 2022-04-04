@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_one :admin, dependent: :destroy
   accepts_nested_attributes_for :trader
   accepts_nested_attributes_for :admin
+
+  has_many :transactions
 end

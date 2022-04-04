@@ -11,12 +11,14 @@ Rails.application.routes.draw do
     }
   end
 
+  resources :transactions
   resources :stocks
   post 'search', to: 'stocks#search'
   post 'calculate', to: 'stocks#calculate'
 
   resources :admins
   resources :traders
+  get 'portfolio', to: 'transactions#portfolio'
 
   root 'home#index'
 end

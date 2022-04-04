@@ -7,6 +7,7 @@ class StocksController < ApplicationController
 
   # GET /stocks/1 or /stocks/1.json
   def show
+    @transaction = Transaction.new
   end
 
   # GET /stocks/new

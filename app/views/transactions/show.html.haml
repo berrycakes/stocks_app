@@ -1,0 +1,21 @@
+%p#notice= notice
+%p
+  %strong Stock:
+  = @transaction.stock_name
+%p
+  %strong Trader:
+  = @transaction.trader_id
+%p
+  %strong Stock share:
+  = @transaction.stock_share
+%p
+  %strong Date:
+  = @transaction.date
+%p
+  %strong Stock Price:
+  = @transaction.price
+%p
+  %strong Total Price:
+  = @transaction.total_price
+
+= link_to 'Portfolio', portfolio_path

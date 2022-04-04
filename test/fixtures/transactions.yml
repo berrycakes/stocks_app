@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stock: one
+  user: one
+  stock_share: 9.99
+  date: 2022-04-02 09:55:54
+  price: 9.99
+
+two:
+  stock: two
+  user: two
+  stock_share: 9.99
+  date: 2022-04-02 09:55:54
+  price: 9.99
