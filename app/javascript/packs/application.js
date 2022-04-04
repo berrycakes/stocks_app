@@ -15,3 +15,23 @@ window.ApexCharts = ApexCharts;
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
+
+// import 'bootstrap';
+import * as bootstrap from 'bootstrap';
+import '../stylesheets/application';
+
+document.addEventListener('turbolinks:load', () => {
+	const popoverTriggerList = [].slice.call(
+		document.querySelectorAll('[data-bs-toggle="popover"]')
+	);
+	const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		return new bootstrap.Popover(popoverTriggerEl);
+	});
+
+	const tooltipTriggerList = [].slice.call(
+		document.querySelectorAll('[data-bs-toggle="tooltip"]')
+	);
+	const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl);
+	});
+});

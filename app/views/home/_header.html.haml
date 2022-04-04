@@ -1,0 +1,14 @@
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  .container-fluid
+    = link_to 'Stocks App', root_path, class: 'navbar-brand link-color'
+    %button.navbar-toggler{"aria-controls" => "navbarNavAltMarkup", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNavAltMarkup", "data-bs-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarNavAltMarkup.collapse.navbar-collapse
+      .navbar-nav
+        = link_to 'Sign in', new_user_session_path, class: ''
+        = link_to 'Create Account', new_user_registration_path, class: ''
+        = link_to 'Edit Profile', edit_user_registration_path, class: ''
+        = link_to 'Traders', traders_path, class: ''     
+        = link_to 'Stocks', stocks_path, class: ''     
+
+        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: ''

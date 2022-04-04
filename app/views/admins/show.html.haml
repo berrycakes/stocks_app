@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %strong First name:
+  = @admin.first_name
+%p
+  %strong Last name:
+  = @admin.last_name
+%p
+  %strong Mobile number:
+  = @admin.mobile_number
+%p
+  %strong User:
+  = @admin.user_id
+= link_to 'Edit', edit_admin_path(@admin)
+|
+= link_to 'Back', admins_path
