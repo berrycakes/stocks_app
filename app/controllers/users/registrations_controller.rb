@@ -3,16 +3,13 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  before_action :set_user, only: %i[edit_trader update_trader]
 
   # Used to allow logged in Admin Users to create another user
   before_action :authenticate_user!, :redirect_unless_admin,  only: %i[new create]
   skip_before_action :require_no_authentication, only: %i[new create]
 
-  # creates an alias 'devise_new' from Parent Class method 'new' so the 'new' method of Parent Class can be called in other methods in the children class
-  alias devise_new new
-
   # GET /resource/sign_up
-  # Used for nesting fields for trader under User form
   # def new
   # super
   # end
@@ -20,10 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
-    # Add user.build_trader
-    # code does not work build_trader is only added as a block
-    # for further studying
-    # resource.build_trader
+    # builds the required assocation for resource/user
     build_association(resource.role)
 
     # Prevents malicious injection of admin role on account creation
@@ -55,6 +49,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def edit
   #   super
   # end
+
+  def edit_trader; end
+
+  def update_trader
+    user_params = params.require(:user).permit(:email, :role,
+                                               trader_attributes: %i[id user_id first_name last_name mobile_number])
+    if @user.update(user_params)
+      redirect_to traders_path
+    else
+      render :edit
+    end
+  end
 
   # PUT /resource
   # def update
@@ -107,6 +113,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       'Error'
     end
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
   # The path used after sign up.

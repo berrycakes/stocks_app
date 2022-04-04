@@ -1,0 +1,22 @@
+%h2
+  Edit #{@user.trader.first_name}
+= form_with(model: @user, as: resource_name, url: admin_update_trader_path(@user.id), method: 'patch') do |f|
+  = render "devise/shared/error_messages", user: @user
+  .field
+    = f.label :email
+    = f.email_field :email, autofocus: true, autocomplete: "email"
+  - if devise_mapping.confirmable? && @user.pending_reconfirmation?
+    %div
+      Currently waiting confirmation for: #{@user.unconfirmed_email}
+  = f.fields_for :trader do |trader|
+    = trader.label :first_name
+    = trader.text_field :first_name
+    %br/
+    = trader.label :last_name
+    = trader.text_field :last_name
+    %br/
+    = trader.label :mobile_number
+    = trader.text_field :mobile_number
+  .actions
+    = f.submit "Update"
+= link_to "Back", :back

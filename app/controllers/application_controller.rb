@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
                                              { trader_attributes: %i[first_name last_name mobile_number approved],
                                                admin_attributes: %i[first_name last_name mobile_number] }])
     devise_parameter_sanitizer.permit(:account_update,
-                                      keys: [trader_attributes: %i[first_name last_name mobile_number approved],
-                                             admin_attributes: %i[first_name last_name mobile_number]])
+                                      keys: [trader_attributes: %i[id user_id first_name last_name mobile_number
+                                                                   approved],
+                                             admin_attributes: %i[id user_id first_name last_name mobile_number]])
   end
 end
