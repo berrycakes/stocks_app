@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :admins
   resources :traders
+  get 'portfolio', to: 'transactions#portfolio'
 
   root 'home#index'
 end

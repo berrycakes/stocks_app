@@ -1,0 +1,26 @@
+= form_with(model: transaction) do |form|
+  - if transaction.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(transaction.errors.count, "error")
+        prohibited this transaction from being saved:
+      %ul
+        - transaction.errors.each do |error|
+          %li= error.full_message
+  .field
+    = form.hidden_field :stock_id, :value => @stock.id
+  .field
+    = form.hidden_field :user_id, :value => 1
+  -# to pass current_user.trader instead of 1
+  .field
+    = form.label :stock_share
+    = form.text_field :stock_share
+  .field
+    = form.hidden_field :date, :value => DateTime.current 
+  .field
+    = form.hidden_field :price, :value => @stock.current_price
+    
+  .actions
+    = form.submit "Buy #{@stock.name.titleize}"
+
+

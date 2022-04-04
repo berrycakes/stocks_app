@@ -34,6 +34,15 @@
   %strong All-time high:
   = @stock.current_ath
 
+
+.modal_buy
+  %p
+    %strong Available P:
+    = 'insert available balance here'
+  = render 'transaction_buy_form', transaction: @transaction
+.modal_sell
+  = render 'transaction_sell_form', transaction: @transaction
+
 -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}}, }
 -candlestick_data = @stock.get_ohlc
 = candlestick_chart(candlestick_data, candlestick_options)

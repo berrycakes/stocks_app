@@ -1,4 +1,7 @@
 class Stock < ApplicationRecord
+    has_many :transactions
+    accepts_nested_attributes_for :transactions
+
     @@market_data = []
 
     def self.get_market_data(currency)
