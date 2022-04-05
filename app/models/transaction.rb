@@ -10,23 +10,31 @@ class Transaction < ApplicationRecord
     Stock.find(self.stock_id).symbol
   end
 
-  def total_price
+  def stock_image
+    Stock.find(self.stock_id).image
+  end
+
+  def purchase_value
     self.price * self.stock_share
   end
 
-  def current_amount
-    Stock.find(self.stock_id).current_price * self.stock_share
+  def current_price
+    Stock.find(self.stock_id).current_price
+  end
+
+  def current_value
+    current_price * self.stock_share
   end
 
   def self.available_stock_share(stock_id, trader_id)
   end
 
   def profit_loss
-    current_amount - total_price
+    current_value - purchase_value
   end
 
   def percent_change
-    (current_amount - total_price) / total_price
+    (current_value - purchase_value) / purchase_value
   end
 
 

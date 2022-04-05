@@ -16,7 +16,7 @@ class TransactionsController < ApplicationController
     if current_user && current_user.trader
       @transactions = Transaction.where(:trader_id => current_user.trader)
     else
-      @transactions = Transaction.where(:trader_id => 1)
+      @transactions = Transaction.where(:trader_id => 1).group_by(:stock_id).average(:price)
     end
   end
 
