@@ -1,8 +1,8 @@
 FROM ruby:2.7.4-slim
 
-# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl
 
+# Install Node 
 ENV NVM_VERSION v0.39.1
 ENV NODE_VERSION v16.14.0
 ENV NVM_DIR /usr/local/nvm
@@ -17,9 +17,11 @@ RUN echo "source $NVM_DIR/nvm.sh && \
     nvm alias default $NODE_VERSION && \
     nvm use default && corepack enable" | bash
 
+# Configure node binaries
 RUN ln -s /usr/local/nvm/versions/node/$NODE_VERSION/bin/node /bin/node
 RUN ln -s /usr/local/nvm/versions/node/$NODE_VERSION/bin/yarn /bin/yarn
 
+# Setup rails project
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
