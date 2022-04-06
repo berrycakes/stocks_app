@@ -10,9 +10,9 @@ class Trader < ApplicationRecord
     transactions.each do |transaction|
       case transaction.transaction_type
       when 'buy'
-        total_balance += transaction.current_amount
+        total_balance += transaction.current_value
       when 'sell'
-        total_balance -= transaction.current_amount
+        total_balance -= transaction.current_value
       end
     end
     total_balance
