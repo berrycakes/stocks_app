@@ -1,1 +1,5 @@
-%h1 Hello #{!current_user.nil? ? current_user.email : 'Bes'}
+-if !current_user.nil?
+    %h1 Hello #{current_user.trader.first_name}
+    = current_user.trader.wallet.balance
+-else 
+    %h1 Hello Bes
