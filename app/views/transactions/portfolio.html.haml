@@ -3,34 +3,41 @@
 %table.table
   %thead
     %tr
-      %th User
       %th.text-center{:colspan => "3"} Stock
-      %th Price
       %th Stock shares 
-      %th Purchase Value
+      %th Average Price
+      %th Current Price
       %th Current Value
       %th % Change
       %th Profit / Loss
       %th{:colspan => "3"}
   %tbody
-    - @transactions.each do |transaction|
+    - @transactions.each do |transaction| 
+      -total_buy_price = @transactions.where(:stock_id => transaction.stock_id).where(:transaction_type => "buy").sum("price * stock_share")
+      -total_sell_price = @transactions.where(:stock_id => transaction.stock_id).where(:transaction_type => "sell").sum("price * stock_share")
+      -total_buy_shares = @transactions.where(:stock_id => transaction.stock_id).where(:transaction_type => "buy").sum(:stock_share)
+      -total_sell_shares = @transactions.where(:stock_id => transaction.stock_id).where(:transaction_type => "sell").sum(:stock_share)
+      -total_stock_share = total_sell_shares ? total_buy_shares - total_sell_shares : total_buy_shares
+      -average_purchase_price = total_sell_price ? (total_buy_price - total_sell_price) / total_stock_share : ( total_buy_price / total_stock_share )
+      -current_value = total_stock_share * transaction.current_price
+      -profit_loss = current_value - (average_purchase_price * total_stock_share)
+      -percent_change = (profit_loss) / average_purchase_price
       %tr
-        %td= transaction.trader_id
-        %td= image_tag(transaction.stock_image, :size =>'30x30')
-        %td= transaction.stock_name
-        %td= transaction.stock_symbol.upcase
+        %td= image_tag(transaction.stock.image, :size =>'30x30')
+        %td= transaction.stock.name
+        %td= transaction.stock.symbol.upcase
+        %td= total_stock_share
+        %td= number_to_currency(average_purchase_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
         %td= number_to_currency(transaction.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        %td= transaction.stock_share
-        %td= number_to_currency(transaction.purchase_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        %td= number_to_currency(transaction.current_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        - if transaction.percent_change > 0 
-          %td.text-success= number_to_percentage(transaction.percent_change)
-          %td.text-success= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= number_to_currency(current_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        - if percent_change > 0 
+          %td.text-success= number_to_percentage(percent_change)
+          %td.text-success= number_to_currency(profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
         - else
-          %td.text-danger= number_to_percentage(transaction.percent_change)
-          %td.text-danger= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        %td= link_to 'Show', transaction
-        %td= link_to 'Edit', edit_transaction_path(transaction)
-        %td= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' }
+          %td.text-danger= number_to_percentage(percent_change)
+          %td.text-danger= number_to_currency(profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
+        -# %td= link_to 'Edit', edit_transaction_path(transaction)
+        -# %td= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'Stocks', stocks_path

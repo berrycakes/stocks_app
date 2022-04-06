@@ -1,12 +1,15 @@
 %p#notice= notice
-%h1 Transactions
+%h1
+  = image_tag(@stock.image, :size =>'60x60')
+  = @stock.symbol.upcase
+%h2= @stock.name
+%h2= number_to_currency(@stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
+
 %table.table
   %thead
     %tr
-      %th User
       %th Date
       %th Type
-      %th.text-center{:colspan => "3"} Stock
       %th Price
       %th Stock shares 
       %th Purchase Value
@@ -17,12 +20,8 @@
   %tbody
     - @transactions.each do |transaction|
       %tr
-        %td= transaction.trader_id
         %td= transaction.date.strftime("%d %b %Y %T %p")
         %td= transaction.transaction_type.upcase
-        %td= image_tag(transaction.stock.image, :size =>'30x30')
-        %td= transaction.stock.name
-        %td= transaction.stock.symbol.upcase
         %td= number_to_currency(transaction.price, unit: "₱ ", separator: ".", delimiter: ",").to_s
         %td= transaction.stock_share
         %td= number_to_currency(transaction.purchase_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
@@ -34,4 +33,7 @@
           %td.text-danger= number_to_percentage(transaction.percent_change)
           %td.text-danger= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
         %td= link_to 'Show', transaction
-= link_to 'Stocks', stocks_path
+        -# %td= link_to 'Edit', edit_transaction_path(transaction)
+        -# %td= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'Portfolio', portfolio_path
