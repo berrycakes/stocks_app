@@ -7,11 +7,8 @@
       %ul
         - transaction.errors.each do |error|
           %li= error.full_message
-    .field
-  - if current_user && current_user.trader
-    = form.hidden_field :trader_id, :value => current_user.trader
-  - else
-    = form.hidden_field :trader_id, :value => 1
+  .field
+    = form.hidden_field :trader_id, :value => current_user.trader.id
   .field
     = form.hidden_field :stock_id, :value => @stock.id   
   .field
