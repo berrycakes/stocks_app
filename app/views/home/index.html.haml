@@ -1,5 +1,6 @@
 -if !current_user.nil?
     %h1 Hello #{current_user.trader.first_name}
-    = current_user.trader.wallet.balance
+    %p Buying Power #{current_user.trader.wallet.balance}
+    = current_user.trader.profit_loss
 -else 
     %h1 Hello Bes
