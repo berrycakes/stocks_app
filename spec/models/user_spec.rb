@@ -13,4 +13,12 @@ RSpec.describe User, type: :model do
       expect(user.errors[:email]).to include('is invalid')
     end
   end
+  context 'creation of trader' do
+    it 'builds an associated trader' do
+      user = User.create(email: 'example@email.com', password: 'testtest', role: 'trader')
+
+      expect(user.trader).to_not be_nil
+      expect(user.trader.wallet).to_not be_nil
+    end
+  end
 end
