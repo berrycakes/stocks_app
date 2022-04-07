@@ -1,0 +1,2 @@
+module WalletTransactionHelper
+end

@@ -8,12 +8,6 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  # TEMPORARY FIX FOR DELETING
-  # bypass incompatible architecture issue with bcrypt
-  def forced_login
-    sign_in(:user, User.first)
-  end
-
   # POST /resource/sign_in
   # def create
   #   super

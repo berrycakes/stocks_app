@@ -17,8 +17,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
-    # builds the required assocation for resource/user
-    build_association(resource.role)
 
     # Prevents malicious injection of admin role on account creation
     if resource.role == 'admin' && (current_user.nil? ? !user_signed_in? : current_user.role != 'admin')
@@ -81,7 +79,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params
@@ -92,7 +90,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
-  private
 
   # Overrides sign_up method of RegistrationsController that logs user in after signing up
   def sign_up(resource_name, resource); end
@@ -102,17 +99,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     flash[:error] = 'Forbidden path'
     redirect_to root_path
-  end
-
-  def build_association(role)
-    case role
-    when 'admin'
-      resource.build_admin
-    when 'trader'
-      resource.build_trader
-    else
-      'Error'
-    end
   end
 
   def set_user

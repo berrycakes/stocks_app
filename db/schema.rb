@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_04_032311) do
+ActiveRecord::Schema.define(version: 2022_04_06_085444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,8 +76,27 @@ ActiveRecord::Schema.define(version: 2022_04_04_032311) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wallet_transactions", force: :cascade do |t|
+    t.bigint "wallet_id", null: false
+    t.decimal "amount"
+    t.string "transaction_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["wallet_id"], name: "index_wallet_transactions_on_wallet_id"
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.decimal "balance", default: "0.0"
+    t.bigint "trader_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trader_id"], name: "index_wallets_on_trader_id"
+  end
+
   add_foreign_key "admins", "users"
   add_foreign_key "traders", "users"
   add_foreign_key "transactions", "stocks"
   add_foreign_key "transactions", "traders"
+  add_foreign_key "wallet_transactions", "wallets"
+  add_foreign_key "wallets", "traders"
 end

@@ -18,10 +18,6 @@ class Transaction < ApplicationRecord
     current_price * self.stock_share
   end
 
-  def self.available_stock_share(stock_id, trader_id)
-    "hello"
-  end
-
   def profit_loss
     current_value - purchase_value
   end
