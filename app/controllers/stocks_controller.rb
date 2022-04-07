@@ -8,6 +8,12 @@ class StocksController < ApplicationController
   # GET /stocks/1 or /stocks/1.json
   def show
     @transaction = Transaction.new
+    if @stock.transactions
+      total_shares = @stock.transactions.group(:transaction_type).sum(:stock_share)
+      @available = total_shares.dig("sell") ? total_shares.dig("buy") - total_shares.dig("sell") : total_shares.dig("buy")
+    else  
+      @available = 0
+    end
   end
 
   # GET /stocks/new

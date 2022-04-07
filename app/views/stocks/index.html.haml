@@ -7,7 +7,6 @@
       %th Name
       %th Currency symbol
       %th Current Price
-      %th Market Cap
       %th 24h High
       %th 24h Low
       %th 24h % Change
@@ -22,7 +21,6 @@
         %td= stock.symbol
         - if stock.get_data != []
           %td= number_to_currency(stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
-          %td= number_to_currency(stock.current_market_cap, unit: "₱ ", separator: ".", delimiter: ",").to_s
           %td= number_to_currency(stock.current_daily_high, unit: "₱ ", separator: ".", delimiter: ",").to_s
           %td= number_to_currency(stock.current_daily_low, unit: "₱ ", separator: ".", delimiter: ",").to_s
           %td= number_to_percentage(stock.current_daily_change)

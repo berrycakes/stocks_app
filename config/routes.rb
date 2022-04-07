@@ -12,14 +12,13 @@ Rails.application.routes.draw do
 
   resources :transactions
   resources :stocks
-  post 'search', to: 'stocks#search'
-  post 'calculate', to: 'stocks#calculate'
 
   resources :admins
   resources :traders
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'
   post 'wallet/transactions', to: 'wallet_transaction#create'
   get 'portfolio', to: 'transactions#portfolio'
+  get 'portfolio/:id', to: 'transactions#show_portfolio'
 
   root 'home#index'
 end
