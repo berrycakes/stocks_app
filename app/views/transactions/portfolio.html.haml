@@ -37,7 +37,5 @@
           %td.text-danger= number_to_percentage(percent_change)
           %td.text-danger= number_to_currency(profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
         %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
-        -# %td= link_to 'Edit', edit_transaction_path(transaction)
-        -# %td= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'Stocks', stocks_path

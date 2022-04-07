@@ -10,6 +10,8 @@
         = link_to 'Edit Profile', edit_user_registration_path, class: ''
         = link_to 'Traders', traders_path, class: ''     
         = link_to 'Stocks', stocks_path, class: ''
+        = link_to 'My Portfolio', portfolio_path, class: ''
+        = link_to 'Transactions', transactions_path, class: ''
         = link_to 'Sign out', destroy_user_session_path, method: :delete, class: ''
         -# TEMPORARY FIX FOR DELETING
         -# bypass incompatible architecture issue with bcrypt

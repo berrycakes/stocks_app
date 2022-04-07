@@ -46,6 +46,6 @@
 
 
 
-= link_to 'Edit', edit_stock_path(@stock)
-|
-= link_to 'Back', stocks_path
+
+= link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
+= link_to 'Stocks', stocks_path
