@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_trader, only: %i[portfolio show_portfolio create]
   before_action :set_transaction, only: %i[show edit update destroy]
 
   # GET /transactions or /transactions.json
@@ -14,7 +15,9 @@ class TransactionsController < ApplicationController
   # GET /transactions/portfolio
   def portfolio
     @stocks = Stock.all
-    @transactions = Transaction.where(trader_id: 1).select(:stock_id).distinct if current_user && current_user.trader
+    if current_user && current_user.trader
+      @transactions = Transaction.where(trader_id: current_user.trader.id).select(:stock_id).distinct
+    end
   end
 
   def show_portfolio
