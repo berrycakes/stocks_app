@@ -33,7 +33,8 @@ class TransactionsController < ApplicationController
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
         format.json { render :portfolio, status: :created, location: @transaction }
       else
-        format.html { render :new , status: :unprocessable_entity}
+        @stock = @transaction.stock
+        format.html { render "stocks/show" , status: :unprocessable_entity}
         # format.html { redirect_to "/stocks/#{@transaction.stock_id}" and return}
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
