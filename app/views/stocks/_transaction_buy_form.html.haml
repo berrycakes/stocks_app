@@ -22,6 +22,8 @@
   .field
     = form.label :stock_share
     = form.text_field :stock_share
+    -# - if transaction.errors.any?
+    -#   = transaction.errors[:stock_share].first
   
   .actions
     = form.submit "Buy #{@stock.name.titleize}"

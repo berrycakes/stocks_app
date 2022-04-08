@@ -21,7 +21,7 @@ class TransactionsController < ApplicationController
   def show_portfolio
     @stock = Stock.find(params[:id])
     if current_user && current_user.trader
-      @transactions = Transaction.where(:trader_id => 1).where(:stock_id => params.dig("id"))
+      @transactions = Transaction.where(current_user.trader.id).where(:stock_id => params.dig("id"))
     end
   end
 
@@ -33,7 +33,8 @@ class TransactionsController < ApplicationController
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
         format.json { render :portfolio, status: :created, location: @transaction }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new , status: :unprocessable_entity}
+        # format.html { redirect_to "/stocks/#{@transaction.stock_id}" and return}
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end

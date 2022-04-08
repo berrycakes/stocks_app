@@ -57,4 +57,12 @@ class Stock < ApplicationRecord
         response = JSON.parse(request.body)
         response.map { |x| [Time.at(x.shift/1000),  x.drop(0)]}
     end
+
+    def total_shares
+        self.transactions.group(:transaction_type).sum(:stock_share)
+    end
+
+    def available_shares
+        total_shares.dig("sell") ? total_shares.dig("buy") - total_shares.dig("sell") : total_shares.dig("buy")
+    end
 end

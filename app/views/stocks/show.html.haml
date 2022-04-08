@@ -29,10 +29,10 @@
   .modals.d-flex.flex-column.justify-content-center.px-2.mx-5
     .modal_buy.d-flex.flex-column.justify-content-center.align-items-center.p-2
       %p= "Available: #{number_to_currency(current_user.trader.wallet.balance, unit: "₱ ", separator: ".", delimiter: ",").to_s}"
-      = render 'transaction_buy_form', transaction: @transaction
+      = render 'stocks/transaction_buy_form', transaction: @transaction
     .modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
-      = render 'transaction_sell_form', transaction: @transaction
+      = render 'stocks/transaction_sell_form', transaction: @transaction
   .container.px-3.mx-3
     -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}},xaxis: {labels: {format: 'MMM dd'}}, yaxis: {labels: {format: 'PHP'}} }
     -candlestick_data = @stock.get_ohlc
