@@ -1,5 +1,8 @@
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_trader, only: %i[portfolio show_portfolio create]
+  before_action :set_transaction, only: %i[show edit update destroy]
 
   # GET /transactions or /transactions.json
   def index
@@ -7,14 +10,13 @@ class TransactionsController < ApplicationController
   end
 
   # GET /transactions/1 or /transactions/1.json
-  def show
-  end
+  def show; end
 
   # GET /transactions/portfolio
   def portfolio
     @stocks = Stock.all
     if current_user && current_user.trader
-      @transactions = Transaction.where(:trader_id => 1).select(:stock_id).distinct
+      @transactions = Transaction.where(trader_id: current_user.trader.id).select(:stock_id).distinct
     end
   end
 
@@ -30,7 +32,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
+        format.html { redirect_to transaction_url(@transaction), notice: 'Transaction was successfully created.' }
         format.json { render :portfolio, status: :created, location: @transaction }
       else
         @stock = @transaction.stock
@@ -42,17 +44,18 @@ class TransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction
-      @transaction = Transaction.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def transaction_params
-      params.require(:transaction).permit(:stock_id, :trader_id, :transaction_type, :stock_share, :date, :price)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_transaction
+    @transaction = Transaction.find(params[:id])
+  end
 
-    def transaction_buys(stock_id)
-      @transactions.where(:stock_id => stock_id).where(:transaction_type => "buy").sum("price * stock_share")
-    end
+  # Only allow a list of trusted parameters through.
+  def transaction_params
+    params.require(:transaction).permit(:stock_id, :trader_id, :transaction_type, :stock_share, :date, :price)
+  end
+
+  def transaction_buys(stock_id)
+    @transactions.where(stock_id: stock_id).where(transaction_type: 'buy').sum('price * stock_share')
+  end
 end

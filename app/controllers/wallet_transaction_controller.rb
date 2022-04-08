@@ -1,4 +1,5 @@
 class WalletTransactionController < ApplicationController
+  before_action :authenticate_user!, :authenticate_trader
   before_action :set_wallet, only: %i[new create]
 
   def new

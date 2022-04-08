@@ -5,11 +5,19 @@
       %span.navbar-toggler-icon
     #navbarNavAltMarkup.collapse.navbar-collapse
       .navbar-nav
-        = link_to 'Sign in', new_user_session_path, class: ''
-        = link_to 'Create Account', new_user_registration_path, class: ''
-        = link_to 'Edit Profile', edit_user_registration_path, class: ''
-        = link_to 'Traders', traders_path, class: ''     
-        = link_to 'Stocks', stocks_path, class: ''
-        = link_to 'My Portfolio', portfolio_path, class: ''
-        = link_to 'Transactions', transactions_path, class: ''
-        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: ''
+        - if user_signed_in?
+          - if current_user.role == 'admin'
+            = link_to 'Create A New Account', new_user_registration_path, class: 'btn'
+            = link_to 'Traders', traders_path, class: 'btn'
+            = link_to 'Admins', admins_path, class: 'btn'
+            = link_to 'Transactions', transactions_path, class: 'btn'
+            = link_to 'Edit Personal Details', edit_admin_path(current_user.admin), class: 'btn'
+          - elsif current_user.role == 'trader'
+            = link_to 'My Portfolio', portfolio_path, class: 'btn'
+            = link_to 'Wallet', new_wallet_transaction_path, class: 'btn'
+            = link_to 'Edit Personal Details', edit_trader_path(current_user.trader), class: 'btn'
+            = link_to 'Stocks', stocks_path, class: 'btn'
+          = link_to 'Edit Profile', edit_user_registration_path, class: 'btn'
+          = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn'
+        - else
+          = link_to 'Log in', new_user_session_path, class: 'btn'
