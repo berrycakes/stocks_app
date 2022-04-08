@@ -92,7 +92,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # Overrides sign_up method of RegistrationsController that logs user in after signing up
-  def sign_up(resource_name, resource); end
+  # def sign_up(resource_name, resource); end
 
   def redirect_unless_admin
     return if current_user.try(:role) == 'admin' || !user_signed_in?
