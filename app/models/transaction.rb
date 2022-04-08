@@ -32,9 +32,9 @@ class Transaction < ApplicationRecord
     wallet = Wallet.find_by(trader_id: trader_id)
     case transaction_type
     when 'buy'
-      wallet.balance -= total_price
+      wallet.balance -= purchase_value
     when 'sell'
-      wallet.balance += total_price
+      wallet.balance += purchase_value
     end
     wallet.save
   end

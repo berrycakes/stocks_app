@@ -97,8 +97,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def redirect_unless_admin
     return if current_user.try(:role) == 'admin' || !user_signed_in?
 
-    flash[:error] = 'Forbidden path'
-    redirect_to root_path
+    redirect_to root_path, notice: 'Forbidden Path'
   end
 
   def set_user
