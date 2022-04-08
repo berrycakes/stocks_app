@@ -25,8 +25,9 @@
           %td= number_to_currency(stock.current_daily_low, unit: "₱ ", separator: ".", delimiter: ",").to_s
           %td= number_to_percentage(stock.current_daily_change)
           %td= number_to_currency(stock.current_ath, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          - trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
           - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
-          - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}}
+          - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}, colors: trend_colors}
           %td= area_chart(sparkline_data, options)
         - else
           %td

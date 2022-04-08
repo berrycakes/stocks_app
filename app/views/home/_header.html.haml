@@ -13,6 +13,3 @@
         = link_to 'My Portfolio', portfolio_path, class: ''
         = link_to 'Transactions', transactions_path, class: ''
         = link_to 'Sign out', destroy_user_session_path, method: :delete, class: ''
-        -# TEMPORARY FIX FOR DELETING
-        -# bypass incompatible architecture issue with bcrypt
-        = link_to 'Force log in',  forced_login_path, method: :post

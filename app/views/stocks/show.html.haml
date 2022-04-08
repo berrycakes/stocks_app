@@ -2,7 +2,6 @@
 %h2
   = image_tag(@stock.image, :size =>'60x60')
   = "#{@stock.name} - #{@stock.symbol.upcase}"
--# %h2= number_to_currency(@stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
 
 %table.table
   %thead
@@ -29,7 +28,7 @@
 .d-flex.flex-row.px-3.mx-5
   .modals.d-flex.flex-column.justify-content-center.px-2.mx-5
     .modal_buy.d-flex.flex-column.justify-content-center.align-items-center.p-2
-      %p= "Available: insert available balance here"
+      %p= "Available: #{number_to_currency(current_user.trader.wallet.balance, unit: "₱ ", separator: ".", delimiter: ",").to_s}"
       = render 'transaction_buy_form', transaction: @transaction
     .modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
@@ -38,14 +37,6 @@
     -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}},xaxis: {labels: {format: 'MMM dd'}}, yaxis: {labels: {format: 'PHP'}} }
     -candlestick_data = @stock.get_ohlc
     = candlestick_chart(candlestick_data, candlestick_options)
-
-
-
-
-
-
-
-
 
 = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
 = link_to 'Stocks', stocks_path

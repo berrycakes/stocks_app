@@ -2,10 +2,6 @@ class Transaction < ApplicationRecord
   belongs_to :stock
   belongs_to :trader
 
-
-
-  # actual total price at the time of purchase
-
   def purchase_value
     self.price * self.stock_share
   end
