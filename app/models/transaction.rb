@@ -42,6 +42,7 @@ class Transaction < ApplicationRecord
         errors.add(:stock_share, "insufficient balance")
       end 
     end
+  end
   private
 
   # Updates wallet balance after succesful transaction

@@ -1,8 +1,8 @@
 -if user_signed_in?
     - if current_user.role == 'trader'
         %h1 Hello Trader #{current_user.trader.first_name}
-        %p Buying Power #{current_user.trader.wallet.balance}
-        = current_user.trader.profit_loss
+        %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
+        = display_currency(current_user.trader.profit_loss)
     - else 
         %h1 Hello Admin #{current_user.admin.first_name}
 -else 
