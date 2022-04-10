@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   resources :transactions
   resources :stocks
-
   resources :admins
   resources :traders
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'

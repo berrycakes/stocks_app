@@ -6,24 +6,31 @@ class TransactionsController < ApplicationController
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.all
+    if current_user && current_user.trader
+      @transactions = Transaction.where(trader_id: current_user.trader.id)
+    else
+      @transactions = Transaction.all
+    end
   end
 
   # GET /transactions/1 or /transactions/1.json
-  def show; end
+  def show
+  end
 
   # GET /transactions/portfolio
   def portfolio
     @stocks = Stock.all
     if current_user && current_user.trader
-      @transactions = Transaction.where(trader_id: current_user.trader.id).select(:stock_id).distinct
+      @transactions = current_user.trader.transactions.select(:stock_id).distinct
     end
   end
 
   def show_portfolio
     @stock = Stock.find(params[:id])
     if current_user && current_user.trader
-      @transactions = Transaction.where(current_user.trader.id).where(:stock_id => params.dig("id"))
+      @transactions = Transaction.where(trader_id: current_user.trader.id).where(:stock_id => params.dig("id"))
+    else
+      @transactions = Transaction.where(:stock_id => params.dig("id"))
     end
   end
 
@@ -37,7 +44,6 @@ class TransactionsController < ApplicationController
       else
         @stock = @transaction.stock
         format.html { render "stocks/show" , status: :unprocessable_entity}
-        # format.html { redirect_to "/stocks/#{@transaction.stock_id}" and return}
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end

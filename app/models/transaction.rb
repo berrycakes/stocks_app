@@ -32,6 +32,17 @@ class Transaction < ApplicationRecord
     (current_value - purchase_value) / purchase_value
   end
 
+  def total_buy_price
+    self.each do |transaction|
+      if transaction_type == "buy"
+        sum += (price * stock_share)
+      end
+    sum
+    end
+  end
+
+
+
   def sufficient_balance
     if stock_share
       if transaction_type == "buy" && self.current_value > trader.wallet.balance
