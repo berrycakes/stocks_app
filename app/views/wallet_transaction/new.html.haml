@@ -14,7 +14,8 @@
     = form.select :transaction_type, ['Deposit',  'Withdraw'], {}, class: 'form-select', placeholder: 'Transaction Type'
     = form.label :transaction_type, 'Transaction Type'
   .field.form-floating.mb-3
-    = form.text_field :amount, class: 'form-control', placeholder: 'Amount'
+    = form.number_field :amount, class: 'form-control', placeholder: 'Amount'
     = form.label :amount, 'Amount'
   .actions
     = form.submit 'Submit', class: 'btn btn-outline-success'
+= link_to "Back", :back
