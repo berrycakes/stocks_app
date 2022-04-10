@@ -1,0 +1,4 @@
+.container.px-3.mx-3
+    -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}},xaxis: {labels: {format: 'MMM dd'}}, yaxis: {labels: {format: 'PHP'}} }
+    -candlestick_data = @stock.get_ohlc
+    = candlestick_chart(candlestick_data, candlestick_options)
