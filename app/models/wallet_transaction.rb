@@ -1,6 +1,14 @@
 class WalletTransaction < ApplicationRecord
   belongs_to :wallet
   after_create :update_balance
+  validates :amount, presence: true, numericality: true
+  validate :enough_balance_for_withdrawal
+
+  def enough_balance_for_withdrawal
+    return unless transaction_type == 'Withdraw' && amount > wallet.balance
+
+    errors.add(:amount, 'Insufficient Balance for withdrawal')
+  end
 
   def update_balance
     case transaction_type

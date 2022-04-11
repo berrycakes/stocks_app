@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :admins
   resources :traders
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'
+  get 'wallet/transactions', to: 'wallet_transaction#show', as: 'wallet_transaction'
   post 'wallet/transactions', to: 'wallet_transaction#create'
   get 'portfolio', to: 'transactions#portfolio'
   get 'portfolio/:id', to: 'transactions#show_portfolio'

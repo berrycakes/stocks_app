@@ -14,7 +14,7 @@
             = link_to 'Edit Personal Details', edit_admin_path(current_user.admin), class: 'btn'
           - elsif current_user.role == 'trader'
             = link_to 'My Portfolio', portfolio_path, class: 'btn'
-            = link_to 'Wallet', new_wallet_transaction_path, class: 'btn'
+            = link_to 'Wallet', wallet_transaction_path, class: 'btn'
             = link_to 'Edit Personal Details', edit_trader_path(current_user.trader), class: 'btn'
             = link_to 'Stocks', stocks_path, class: 'btn'
           = link_to 'Edit Profile', edit_user_registration_path, class: 'btn'
