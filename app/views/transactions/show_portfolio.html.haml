@@ -3,14 +3,14 @@
   = image_tag(@stock.image, :size =>'60x60')
   = @stock.symbol.upcase
 %h2= @stock.name
-%h2= number_to_currency(@stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
+%h2= display_currency(@stock.current_price)
 
 %table.table
   %thead
     %tr
       %th Date
       %th Type
-      %th Price
+      %th Purchase Price
       %th Stock shares 
       %th Purchase Value
       %th Current Value
@@ -22,19 +22,17 @@
       %tr
         %td= transaction.date.strftime("%d %b %Y %T %p")
         %td= transaction.transaction_type.upcase
-        %td= number_to_currency(transaction.price, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= display_currency(transaction.price)
         %td= transaction.stock_share
-        %td= number_to_currency(transaction.purchase_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        %td= number_to_currency(transaction.current_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= display_currency(transaction.purchase_value)
+        %td= display_currency(transaction.current_value)
         - if transaction.percent_change > 0 
           %td.text-success= number_to_percentage(transaction.percent_change)
-          %td.text-success= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td.text-success= display_currency(transaction.profit_loss)
         - else
           %td.text-danger= number_to_percentage(transaction.percent_change)
-          %td.text-danger= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td.text-danger= display_currency(transaction.profit_loss)
         %td= link_to 'Show', transaction
-        -# %td= link_to 'Edit', edit_transaction_path(transaction)
-        -# %td= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'Portfolio', portfolio_path
 %br

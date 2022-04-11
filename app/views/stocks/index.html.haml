@@ -3,9 +3,7 @@
 %table.table
   %thead
     %tr
-      %th
-      %th Name
-      %th Currency symbol
+      %th{:colspan => "3"} Stock
       %th Current Price
       %th 24h High
       %th 24h Low
@@ -17,14 +15,19 @@
       %tr
         %td= image_tag(stock.image, :size =>'30x30')
         %td= stock.name
-        %td= stock.symbol
+        %td= stock.symbol.upcase
         - if stock.get_data != []
-          %td= number_to_currency(stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
-          %td= number_to_currency(stock.current_daily_high, unit: "₱ ", separator: ".", delimiter: ",").to_s
-          %td= number_to_currency(stock.current_daily_low, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td= display_currency(stock.current_price)
+          %td= display_currency(stock.current_daily_high)
+          %td= display_currency(stock.current_daily_low)
           %td= number_to_percentage(stock.current_daily_change)
-          %td= number_to_currency(stock.current_ath, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td= display_currency(stock.current_ath)
+          -# - trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
+          -# - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
+          -# - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}, colors: trend_colors}
+          -# %td= area_chart(sparkline_data, options)
         - else
+          %td
           %td
           %td
           %td

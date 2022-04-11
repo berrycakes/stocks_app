@@ -2,7 +2,6 @@
 %h2
   = image_tag(@stock.image, :size =>'60x60')
   = "#{@stock.name} - #{@stock.symbol.upcase}"
--# %h2= number_to_currency(@stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
 
 %table.table
   %thead
@@ -16,36 +15,25 @@
 
   %tbody
     %tr
-      %td= number_to_currency(@stock.current_price, unit: "₱ ", separator: ".", delimiter: ",").to_s
-      %td= number_to_currency(@stock.current_market_cap, unit: "₱ ", separator: ".", delimiter: ",").to_s
-      %td= number_to_currency(@stock.current_daily_high, unit: "₱ ", separator: ".", delimiter: ",").to_s
-      %td= number_to_currency(@stock.current_daily_low, unit: "₱ ", separator: ".", delimiter: ",").to_s
+      %td= display_currency(@stock.current_price)
+      %td= display_currency(@stock.current_market_cap)
+      %td= display_currency(@stock.current_daily_high)
+      %td= display_currency(@stock.current_daily_low)
       - if @stock.current_daily_change > 0 
         %td.text-success= number_to_percentage(@stock.current_daily_change)
       - else
         %td.text-danger= number_to_percentage(@stock.current_daily_change)
-      %td= number_to_currency(@stock.current_ath, unit: "₱ ", separator: ".", delimiter: ",").to_s
+      %td= display_currency(@stock.current_ath)
 
 .d-flex.flex-row.px-3.mx-5
   .modals.d-flex.flex-column.justify-content-center.px-2.mx-5
     .modal_buy.d-flex.flex-column.justify-content-center.align-items-center.p-2
-      %p= "Available: insert available balance here"
-      = render 'transaction_buy_form', transaction: @transaction
+      %p= "Available: #{display_currency(current_user.trader.wallet.balance)}"
+      = render 'stocks/transaction_buy_form', transaction: @transaction
     .modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
-      = render 'transaction_sell_form', transaction: @transaction
-  .container.px-3.mx-3
-    -candlestick_options = {plot_options: {candlestick: {colors: {upward: '#007a5a',downward: '#e50815'}}},xaxis: {labels: {format: 'MMM dd'}}, yaxis: {labels: {format: 'PHP'}} }
-    -candlestick_data = @stock.get_ohlc
-    = candlestick_chart(candlestick_data, candlestick_options)
-
-
-
-
-
-
-
-
+      = render 'stocks/transaction_sell_form', transaction: @transaction
+  =render 'candlestick_chart', stock: @stock
 
 = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
 = link_to 'Stocks', stocks_path

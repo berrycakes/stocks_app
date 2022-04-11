@@ -7,7 +7,7 @@
       %th Date
       %th Type
       %th.text-center{:colspan => "3"} Stock
-      %th Price
+      %th Purchase Price
       %th Stock shares 
       %th Purchase Value
       %th Current Value
@@ -23,15 +23,15 @@
         %td= image_tag(transaction.stock.image, :size =>'30x30')
         %td= transaction.stock.name
         %td= transaction.stock.symbol.upcase
-        %td= number_to_currency(transaction.price, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= display_currency(transaction.price,)
         %td= transaction.stock_share
-        %td= number_to_currency(transaction.purchase_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
-        %td= number_to_currency(transaction.current_value, unit: "₱ ", separator: ".", delimiter: ",").to_s
+        %td= display_currency(transaction.purchase_value)
+        %td= display_currency(transaction.current_value)
         - if transaction.percent_change > 0 
           %td.text-success= number_to_percentage(transaction.percent_change)
-          %td.text-success= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td.text-success= display_currency(transaction.profit_loss)
         - else
           %td.text-danger= number_to_percentage(transaction.percent_change)
-          %td.text-danger= number_to_currency(transaction.profit_loss, unit: "₱ ", separator: ".", delimiter: ",").to_s
+          %td.text-danger= display_currency(transaction.profit_loss)
         %td= link_to 'Show', transaction
 = link_to 'Stocks', stocks_path

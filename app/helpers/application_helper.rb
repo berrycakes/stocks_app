@@ -8,4 +8,8 @@ module ApplicationHelper
     arr.delete_at(0)
     arr
   end
+
+  def display_currency(number)
+    number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",").to_s
+  end
 end
