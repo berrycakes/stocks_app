@@ -33,6 +33,10 @@
           %td
           %td
           %td
+        - if get_watchlist.include?(stock.id)
+          %td= link_to "remove", watchlist_stock_path(stock, type: "unwatchlist"), method: :put        
+        -else
+          %td= link_to "add",   watchlist_stock_path(stock, type: "watchlist"), method: :put
         %td= link_to 'Show', stock
         %td= link_to 'Edit', edit_stock_path(stock)
         %td= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' }

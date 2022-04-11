@@ -1,5 +1,7 @@
 class Stock < ApplicationRecord
     has_many :transactions
+    has_many :watchlists
+    has_many :watched_by, through: :watchlists, source: :trader
     accepts_nested_attributes_for :transactions
 
     @@market_data = []

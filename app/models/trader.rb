@@ -3,6 +3,8 @@ class Trader < ApplicationRecord
   has_one :wallet
   has_many :wallet_transactions, through: :wallet
   has_many :transactions
+  has_many :watchlists
+  has_many :watches, through: :watchlists, source: :stock
   has_many :stocks, through: :transactions
 
   def profit_loss
