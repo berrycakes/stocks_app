@@ -22,10 +22,6 @@
           %td= display_currency(stock.current_daily_low)
           %td= number_to_percentage(stock.current_daily_change)
           %td= display_currency(stock.current_ath)
-          -# - trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
-          -# - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
-          -# - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}, colors: trend_colors}
-          -# %td= area_chart(sparkline_data, options)
         - else
           %td
           %td
@@ -34,9 +30,13 @@
           %td
           %td
         - if get_watchlist.include?(stock.id)
-          %td= link_to "remove", watchlist_stock_path(stock, type: "unwatchlist"), method: :put        
+          %td
+            = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
+              %i.bi.bi-star-fill          
         -else
-          %td= link_to "add",   watchlist_stock_path(stock, type: "watchlist"), method: :put
+          %td
+            = link_to watchlist_stock_path(stock, type: "watchlist"), method: :put do
+              %i.bi.bi-star 
         %td= link_to 'Show', stock
         %td= link_to 'Edit', edit_stock_path(stock)
         %td= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' }
