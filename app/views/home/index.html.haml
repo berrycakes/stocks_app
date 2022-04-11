@@ -3,48 +3,47 @@
         %h1 Hello Trader #{current_user.trader.first_name}
         %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
         = display_currency(current_user.trader.profit_loss)
+        %h2 My Watchlist
+        %table.table
+            %thead
+                %tr
+                    %th{:colspan => "3"} Stock
+                    %th Current Price
+                    %th 24h High
+                    %th 24h Low
+                    %th 24h % Change
+                    %th All-time High
+                    %th Last 7 Days
+                    %th{:colspan => "2"}
+            %tbody
+                - stocks = current_user.trader.watches
+                - stocks.each do |stock|
+                    %tr
+                        %td= image_tag(stock.image, :size =>'30x30')
+                        %td= stock.name
+                        %td= stock.symbol.upcase
+                        - if stock.get_data != []
+                            %td= display_currency(stock.current_price)
+                            %td= display_currency(stock.current_daily_high)
+                            %td= display_currency(stock.current_daily_low)
+                            %td= number_to_percentage(stock.current_daily_change)
+                            %td= display_currency(stock.current_ath)
+                            - trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
+                            - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
+                            - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}, colors: trend_colors}
+                            %td= area_chart(sparkline_data, options)
+                        - else
+                            %td
+                            %td
+                            %td
+                            %td
+                            %td
+                            %td
+                        %td
+                            = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
+                                %i.bi.bi-star-fill        
+                        %td= link_to 'Show', stock
     - else 
         %h1 Hello Admin #{current_user.admin.first_name}
 -else 
     %h1 Hello Bes
-
-%h2 My Watchlist
-%table.table
-    %thead
-        %tr
-            %th{:colspan => "3"} Stock
-            %th Current Price
-            %th 24h High
-            %th 24h Low
-            %th 24h % Change
-            %th All-time High
-            %th Last 7 Days
-            %th{:colspan => "2"}
-    %tbody
-        - stocks = current_user.trader.watches
-        - stocks.each do |stock|
-            %tr
-                %td= image_tag(stock.image, :size =>'30x30')
-                %td= stock.name
-                %td= stock.symbol.upcase
-                - if stock.get_data != []
-                    %td= display_currency(stock.current_price)
-                    %td= display_currency(stock.current_daily_high)
-                    %td= display_currency(stock.current_daily_low)
-                    %td= number_to_percentage(stock.current_daily_change)
-                    %td= display_currency(stock.current_ath)
-                    - trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
-                    - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
-                    - options = {chart: {sparkline: {enabled: true }, height: 60, width: 140}, stroke: {width: 1}, colors: trend_colors}
-                    %td= area_chart(sparkline_data, options)
-                - else
-                    %td
-                    %td
-                    %td
-                    %td
-                    %td
-                    %td
-                %td
-                    = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
-                        %i.bi.bi-star-fill        
-                %td= link_to 'Show', stock
