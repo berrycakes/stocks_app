@@ -44,5 +44,7 @@
                     %td
                     %td
                     %td
-                %td= link_to "remove", watchlist_stock_path(stock, type: "unwatchlist"), method: :put        
+                %td
+                    = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
+                        %i.bi.bi-star-fill        
                 %td= link_to 'Show', stock

@@ -68,12 +68,12 @@ class StocksController < ApplicationController
     if type == "watchlist"
       watchlist = Watchlist.new(:trader_id => current_user.trader.id, :stock_id => @stock.id)
       watchlist.save
-      # redirect_to :stock, notice: "#{@stock.name} added to watchlist"
+      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} added to watchlist"
 
     elsif type == "unwatchlist"
-      watchlist = Watchlist.find(:trader_id => current_user.trader.id, :stock_id => @stock.id)
-      watchlist.destroy
-      # redirect_to :back, notice: "#{@stock.name} removed from watchlist"
+      watchlist = Watchlist.where(:trader_id => current_user.trader.id, :stock_id => @stock.id).ids[0]
+      Watchlist.destroy(watchlist)
+      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} removed from watchlist"
 
     else
       redirect_to stocks_url, notice: 'No action'
