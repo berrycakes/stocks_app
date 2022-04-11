@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :transactions
-  resources :stocks
+  resources :stocks do 
+    put :watchlist, on: :member
+  end
   resources :admins
   resources :traders
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'
