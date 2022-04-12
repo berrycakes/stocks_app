@@ -35,3 +35,23 @@ document.addEventListener('turbolinks:load', () => {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
 })
+
+// change view to buy or sell
+document.addEventListener('turbolinks:load', () => {
+  const toggleBuyButton = document.querySelector('#toggle_buy_button')
+  const toggleSellButton = document.querySelector('#toggle_sell_button')
+  const toggleBuyContainer = document.querySelector('#buy_container')
+  const toggleSellContainer = document.querySelector('#sell_container')
+  toggleBuyButton.addEventListener('click', () => {
+    toggleBuyButton.classList.toggle('active')
+    toggleSellButton.classList.toggle('active')
+    toggleBuyContainer.classList.toggle('d-none')
+    toggleSellContainer.classList.toggle('d-none')
+  })
+  toggleSellButton.addEventListener('click', () => {
+    toggleBuyButton.classList.toggle('active')
+    toggleSellButton.classList.toggle('active')
+    toggleBuyContainer.classList.toggle('d-none')
+    toggleSellContainer.classList.toggle('d-none')
+  })
+})
