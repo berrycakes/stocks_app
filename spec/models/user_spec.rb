@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context 'validations' do
-    let!(:user) { User.new(
-      email: 'test@email.com',
-      password: 'asdfjkl;'
-    ) }
+    let!(:user) { build(:user) }
 
     it 'is valid with valid attributes' do
       expect(user).to be_valid
@@ -14,7 +11,7 @@ RSpec.describe User, type: :model do
     context 'email' do
       it 'is not valid with wrong format' do
         user.email = 'test'
-  
+
         expect(user).to_not be_valid
         expect(user.errors).to be_present
         expect(user.errors.to_hash.keys).to include(:email)
@@ -22,8 +19,8 @@ RSpec.describe User, type: :model do
       end
 
       it 'is not valid if not unique' do
-        User.create(email: 'test@email.com', password: 'testtest')
-  
+        User.create(email: 'juan@email.com', password: 'testtest')
+
         expect(user).to_not be_valid
         expect(user.errors).to be_present
         expect(user.errors.to_hash.keys).to include(:email)
@@ -34,7 +31,7 @@ RSpec.describe User, type: :model do
     context 'password' do
       it 'is invalid when it is too short' do
         user.password = 'asd'
-  
+
         expect(user).to_not be_valid
         expect(user.errors).to be_present
         expect(user.errors.to_hash.keys).to include(:password)
@@ -43,7 +40,7 @@ RSpec.describe User, type: :model do
 
       it 'is invalid if blank' do
         user.password = ''
-  
+
         expect(user).to_not be_valid
         expect(user.errors).to be_present
         expect(user.errors.to_hash.keys).to include(:password)
