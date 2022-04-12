@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_admin, only: [:index]
+  # before_action :authenticate_admin, only: [:index]
   before_action :authenticate_trader, only: %i[portfolio show_portfolio create]
   before_action :set_transaction, only: %i[show edit update destroy]
 

@@ -36,7 +36,7 @@
     .form-group.modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2.d-none{:id => "sell_container"}
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
       .form-group= render 'stocks/transaction_sell_form', transaction: @transaction
-  =render 'candlestick_chart', stock: @stock
+  =render 'stocks/candlestick_chart', stock: @stock
 
 = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
 = link_to 'Stocks', stocks_path

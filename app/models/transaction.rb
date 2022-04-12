@@ -2,16 +2,14 @@ class Transaction < ApplicationRecord
   belongs_to :stock
   belongs_to :trader
 
-  validates :trader_id, presence: true
-  validates :stock_id, presence: true
   validates :date, presence: true
   validates :transaction_type, presence: true
   validates :stock_share, presence: true
+  validates :stock_share, numericality: {:greater_than => 0}
   validate :sufficient_balance
   after_create :update_balance
 
   # actual total price at the time of purchase
-
   def purchase_value
     price * stock_share
   end
@@ -19,7 +17,7 @@ class Transaction < ApplicationRecord
   def current_price
     stock.current_price
   end
-
+  
   def current_value
     current_price * stock_share
   end
@@ -32,17 +30,6 @@ class Transaction < ApplicationRecord
     (current_value - purchase_value) / purchase_value
   end
 
-  def total_buy_price
-    self.each do |transaction|
-      if transaction_type == "buy"
-        sum += (price * stock_share)
-      end
-    sum
-    end
-  end
-
-
-
   def sufficient_balance
     if stock_share
       if transaction_type == "buy" && self.current_value > trader.wallet.balance
@@ -50,10 +37,11 @@ class Transaction < ApplicationRecord
       end
 
       if transaction_type == "sell" && stock_share > Stock.find(stock_id).available_shares
-        errors.add(:stock_share, "insufficient balance")
+        errors.add(:stock_share, "greater than available. Insufficient balance")
       end 
     end
   end
+
   private
 
   # Updates wallet balance after succesful transaction
