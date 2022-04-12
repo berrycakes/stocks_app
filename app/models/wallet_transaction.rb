@@ -1,4 +1,6 @@
 class WalletTransaction < ApplicationRecord
+  scope :total_deposit, -> { where(transaction_type: 'Deposit') }
+  scope :total_withdrawal, -> { where(transaction_type: 'Withdraw') }
   belongs_to :wallet
   after_create :update_balance
   validates :amount, presence: true, numericality: true
