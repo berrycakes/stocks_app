@@ -1,26 +1,22 @@
-%p#notice= notice
 %h1 Traders
 %table
   %thead
     %tr
-      %th First name
-      %th Last name
+      %th Name
       %th Email
       %th Mobile number
       %th Approved
-      %th User
       %th{:colspan => "3"}
   %tbody
     - @traders.each do |trader|
       %tr
-        %td= trader.first_name
-        %td= trader.last_name
+        %td #{trader.first_name} #{trader.last_name}
         %td= trader.user.email
         %td= trader.mobile_number
-        %td= trader.approved
-        %td= trader.user_id
+        - if trader.approved
+          %td Approved
+        - else 
+          %td Pending Approval
         %td= link_to 'Show', trader
-        %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: 'Are you sure?' }
         %td= link_to 'Edit', admin_edit_trader_path(trader.user)
-%br/
-= link_to 'New Trader', new_trader_path
+        %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-primary'
