@@ -1,0 +1,13 @@
+%h1 Traders - Pending Approval
+%table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Approved
+  %tbody
+    - @traders.each do |trader|
+      %tr
+        %td #{trader.first_name} #{trader.last_name}
+        %td= trader.user.email
+        %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-primary'
