@@ -1,8 +1,8 @@
 class TradersController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_admin, only: %i[index show_pending_approval approve]
   before_action :authenticate_trader, only: %i[edit update]
-  before_action :correct_trader, only: %i[show edit update destroy]
+  before_action :correct_trader, only: %i[show edit update destroy], unless: -> {current_user.role != 'trader'}
   before_action :set_trader, only: %i[show edit update destroy]
 
   # GET /traders or /traders.json
@@ -12,6 +12,10 @@ class TradersController < ApplicationController
 
   # GET /traders/1 or /traders/1.json
   def show; end
+
+  def show_pending_approval
+    @traders = Trader.pending_approval
+  end
 
   # GET /traders/new
   # def new
@@ -57,6 +61,16 @@ class TradersController < ApplicationController
       format.html { redirect_to traders_url, notice: 'Trader was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def approve
+    @traders = Trader.all
+    @trader = Trader.find(params[:trader_id])
+    @trader.approved = true
+    if @trader.save
+      TraderMailer.with(trader: @trader).approved_notification.deliver_later
+    end
+    render :index
   end
 
   private

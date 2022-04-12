@@ -1,6 +1,10 @@
 class WalletTransactionController < ApplicationController
   before_action :authenticate_user!, :authenticate_trader
-  before_action :set_wallet, only: %i[new create]
+  before_action :set_wallet, only: %i[show new create]
+
+  def show
+    @wallet_transaction = @wallet.wallet_transactions
+  end
 
   def new
     @wallet_transaction = @wallet.wallet_transactions.build
