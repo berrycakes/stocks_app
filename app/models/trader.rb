@@ -1,4 +1,5 @@
 class Trader < ApplicationRecord
+  scope :pending_approval, -> {where('approved = false')}
   belongs_to :user
   has_one :wallet
   has_many :wallet_transactions, through: :wallet
