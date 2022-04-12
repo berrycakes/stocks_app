@@ -11,13 +11,14 @@ Rails.application.routes.draw do
   end
 
   resources :transactions
-  resources :stocks do 
+  resources :stocks do
     put :watchlist, on: :member
   end
   resources :admins
   resources :traders do
     patch 'approve', to: 'traders#approve', as: 'approved'
   end
+  get 'traders/pending/approval', to: 'traders#show_pending_approval', as: 'traders_pending_approval'
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'
   get 'wallet/transactions', to: 'wallet_transaction#show', as: 'wallet_transaction'
   post 'wallet/transactions', to: 'wallet_transaction#create'
