@@ -9,7 +9,7 @@
     - @wallet_transaction.each do |transaction|
       %tr
         %td= transaction.transaction_type
-        %td= transaction.amount
+        %td= display_currency(transaction.amount)
         %td= transaction.created_at
 %br/
 
