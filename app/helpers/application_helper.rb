@@ -16,4 +16,9 @@ module ApplicationHelper
       number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",", precision: 6).to_s
     end
   end
+
+  def get_watchlist
+    current_user.trader.watchlists.pluck(:stock_id)
+  end
+
 end

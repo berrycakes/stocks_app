@@ -1,0 +1,16 @@
+%h1 Transactions
+%table
+  %thead
+    %tr
+      %th Transaction Type
+      %th Amount
+      %th Date
+  %tbody
+    - @wallet_transaction.each do |transaction|
+      %tr
+        %td= transaction.transaction_type
+        %td= display_currency(transaction.amount)
+        %td= transaction.created_at
+%br/
+
+= link_to 'Deposit | Withdraw', new_wallet_transaction_path, class: 'btn btn-outline-primary'

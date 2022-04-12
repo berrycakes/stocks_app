@@ -2,8 +2,9 @@
     - if current_user.role == 'trader'
         %h1 Hello Trader #{current_user.trader.first_name}
         %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
-        %p #{display_currency(current_user.trader.profit_loss)} 
-        %p (#{current_user.trader.percentage})
+        %p #{display_currency(current_user.trader.profit_loss)} (#{current_user.trader.percentage})
+
+    - if current_user.trader.watches && current_user.trader.watches != []
         %h2 My Watchlist
         %table.table
             %thead
@@ -48,4 +49,3 @@
         %h1 Hello Admin #{current_user.admin.first_name}
 -else 
     %h1 Hello Bes
-

@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-  before_action :set_stock, only: %i[ show edit update destroy get_market_data]
+  before_action :set_stock, only: %i[ show edit update destroy get_market_data watchlist]
 
   def index
     @stocks = Stock.all
@@ -8,9 +8,8 @@ class StocksController < ApplicationController
   # GET /stocks/1 or /stocks/1.json
   def show
     @transaction = Transaction.new
-    if @stock.transactions
+    if @stock.available_shares
       @available = @stock.available_shares
-      # @available = total_shares.dig("sell") ? total_shares.dig("buy") - total_shares.dig("sell") : total_shares.dig("buy")
     else  
       @available = 0
     end
@@ -69,10 +68,12 @@ class StocksController < ApplicationController
     if type == "watchlist"
       watchlist = Watchlist.new(:trader_id => current_user.trader.id, :stock_id => @stock.id)
       watchlist.save
+      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} added to watchlist"
 
     elsif type == "unwatchlist"
       watchlist = Watchlist.where(:trader_id => current_user.trader.id, :stock_id => @stock.id).ids[0]
       Watchlist.destroy(watchlist)
+      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} removed from watchlist"
 
     else
       redirect_to stocks_url, notice: 'No action'

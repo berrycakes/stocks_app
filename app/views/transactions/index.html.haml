@@ -23,7 +23,7 @@
         %td= image_tag(transaction.stock.image, :size =>'30x30')
         %td= transaction.stock.name
         %td= transaction.stock.symbol.upcase
-        %td= display_currency(transaction.price,)
+        %td= display_currency(transaction.price)
         %td= transaction.stock_share
         %td= display_currency(transaction.purchase_value)
         %td= display_currency(transaction.current_value)
