@@ -8,16 +8,46 @@
         - if user_signed_in?
           - if current_user.role == 'admin'
             = link_to 'Create A New Account', new_user_registration_path, class: 'btn'
-            = link_to 'Traders', traders_path, class: 'btn'
+            %li.nav-item.dropdown
+              %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
+                Traders
+              %ul.dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+                %li
+                  = link_to 'Show Traders', traders_path, class: 'dropdown-item'
+                %li
+                  = link_to traders_pending_approval_path, class: 'dropdown-item ' do
+                    Pending Approval
+                    %span.badge.bg-primary #{Trader.pending_approval.count}
+                %li
+                  = link_to 'Transactions', transactions_path, class: 'dropdown-item'
             = link_to 'Admins', admins_path, class: 'btn'
-            = link_to 'Transactions', transactions_path, class: 'btn'
-            = link_to 'Edit Personal Details', edit_admin_path(current_user.admin), class: 'btn'
           - elsif current_user.role == 'trader'
             = link_to 'My Portfolio', portfolio_path, class: 'btn'
-            = link_to 'Wallet', wallet_transaction_path, class: 'btn'
-            = link_to 'Edit Personal Details', edit_trader_path(current_user.trader), class: 'btn'
+            %li.nav-item.dropdown
+              %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
+                Wallet
+              %ul.dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+                %li
+                  = link_to 'Transactions', wallet_transaction_path, class: 'dropdown-item'
+                %li
+                  = link_to 'Deposit/Withdraw', new_wallet_transaction_path, class: 'dropdown-item'
             = link_to 'Stocks', stocks_path, class: 'btn'
-          = link_to 'Edit Profile', edit_user_registration_path, class: 'btn'
-          = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn'
+          %li.nav-item.dropdown
+            %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
+              Account
+            %ul.dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+              - if current_user.role == 'admin'
+                %li
+                  = link_to 'Details', admin_path(current_user.admin), class: 'dropdown-item'
+                %li
+                  = link_to 'Edit Personal Details', edit_admin_path(current_user.admin), class: 'dropdown-item'
+              - elsif current_user.role == 'trader'
+                %li
+                  = link_to 'Details', trader_path(current_user.trader), class: 'dropdown-item'
+                %li
+                  = link_to 'Edit Personal Details', edit_trader_path(current_user.trader), class: 'dropdown-item'
+              %li
+                = link_to 'Edit Profile', edit_user_registration_path, class: 'dropdown-item'
+          = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn'
         - else
           = link_to 'Log in', new_user_session_path, class: 'btn'

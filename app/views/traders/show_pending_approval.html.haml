@@ -1,22 +1,13 @@
-%h1 Traders
+%h1 Traders - Pending Approval
 %table
   %thead
     %tr
       %th Name
       %th Email
-      %th Mobile number
       %th Approved
-      %th{:colspan => "3"}
   %tbody
     - @traders.each do |trader|
       %tr
         %td #{trader.first_name} #{trader.last_name}
         %td= trader.user.email
-        %td= trader.mobile_number
-        - if trader.approved
-          %td Approved
-        - else 
-          %td Pending Approval
-        %td= link_to 'Show', trader
-        %td= link_to 'Edit', admin_edit_trader_path(trader.user)
         %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-primary'
