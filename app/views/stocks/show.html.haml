@@ -32,8 +32,8 @@
       = render 'stocks/transaction_buy_form', transaction: @transaction
     .modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
-      = render 'stocks/transaction_sell_form', transaction: @transaction
-  =render 'candlestick_chart', stock: @stock
+      .form-group= render 'stocks/transaction_sell_form', transaction: @transaction
+  =render 'stocks/candlestick_chart', stock: @stock
 
 = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
 = link_to 'Stocks', stocks_path

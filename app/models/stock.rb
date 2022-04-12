@@ -12,7 +12,7 @@ class Stock < ApplicationRecord
     end
   
     def self.set_market_data
-        @@market_data = get_market_data("php")
+        @@market_data = get_market_data("php")   
     end
     
     set_market_data

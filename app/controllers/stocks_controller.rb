@@ -63,6 +63,24 @@ class StocksController < ApplicationController
     end
   end
 
+  def watchlist
+    type = params[:type]
+    
+    if type == "watchlist"
+      watchlist = Watchlist.new(:trader_id => current_user.trader.id, :stock_id => @stock.id)
+      watchlist.save
+
+    elsif type == "unwatchlist"
+      watchlist = Watchlist.where(:trader_id => current_user.trader.id, :stock_id => @stock.id).ids[0]
+      Watchlist.destroy(watchlist)
+
+    else
+      redirect_to stocks_url, notice: 'No action'
+    end
+  end
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stock
