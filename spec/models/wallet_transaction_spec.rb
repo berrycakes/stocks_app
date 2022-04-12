@@ -1,8 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe WalletTransaction, type: :model do
+  describe '.total_deposit' do 
+    it 'includes transactions with deposit types' do
+      wallet = Wallet.create!(balance: 0)
+      transaction = WalletTransaction.create!(transaction_type: 'Deposit', amount: 200)
+      expect(WalletTransaction.total_deposit).to include(transaction)
+    end
+  end
+
   describe '#update_balance' do
-    context 'updates associated wallet balance when' do
+    context 'updates wallet balance' do
       it 'deposits' do
         wallet = Wallet.new(
           id: 1,
