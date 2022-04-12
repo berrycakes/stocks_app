@@ -1,8 +1,8 @@
 class TradersController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_admin, only: %i[index approve]
   before_action :authenticate_trader, only: %i[edit update]
-  before_action :correct_trader, only: %i[show edit update destroy]
+  before_action :correct_trader, only: %i[show edit update destroy], unless: -> {current_user.role != 'trader'}
   before_action :set_trader, only: %i[show edit update destroy]
 
   # GET /traders or /traders.json
@@ -59,10 +59,22 @@ class TradersController < ApplicationController
     end
   end
 
+  def approve
+    @traders = Trader.all
+    @trader = Trader.find(params[:trader_id])
+    @trader.approved = true
+    if @trader.save
+      TraderMailer.with(trader: @trader).approved_notification.deliver_later
+      render :index
+    else
+      render :index
+    end
+  end
+
   private
 
   def correct_trader
-    return if current_user.trader.id == params[:id].to_i
+    return if current_user:trader.id == params[:id].to_i
 
     redirect_to root_path, notice: 'Unauthorized path'
   end
