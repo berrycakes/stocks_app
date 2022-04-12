@@ -1,47 +1,51 @@
 require 'rails_helper'
 
 RSpec.describe WalletTransaction, type: :model do
-  describe '.total_deposit' do 
+  describe '.total_deposit' do
+    let(:deposit_transaction) { create(:wallet_transaction) }
+
     it 'includes transactions with deposit types' do
-      wallet = Wallet.create!(balance: 0)
-      transaction = WalletTransaction.create!(transaction_type: 'Deposit', amount: 200)
-      expect(WalletTransaction.total_deposit).to include(transaction)
+      expect(WalletTransaction.total_deposit).to include(deposit_transaction)
     end
+  end
+
+  # Wallet transaction deposits 1000
+  let(:wallet_transaction) { build(:wallet_transaction) }
+  let(:wallet) do
+    Wallet.new(
+      id: 1,
+      balance: 1000
+    )
+  end
+  let(:new_transaction) do
+    wallet.wallet_transactions.build(
+      transaction_type: 'Withdraw',
+      amount: 500
+    )
   end
 
   describe '#update_balance' do
     context 'updates wallet balance' do
       it 'deposits' do
-        wallet = Wallet.new(
-          id: 1,
-          balance: 5
-        )
-        wallet_transaction = wallet.wallet_transactions.build(
-          id: 1,
-          transaction_type: 'Deposit',
-          amount: 5
-        )
-        expect { wallet_transaction.update_balance }.to change { wallet.balance }.from(5).to(10)
+        expect { wallet_transaction.update_balance }.to change { wallet_transaction.wallet.balance }.from(0).to(1000)
       end
 
       it 'withdraws' do
-        wallet = Wallet.new(
-          id: 1,
-          balance: 10
-        )
-        wallet_transaction = wallet.wallet_transactions.build(
-          id: 1,
-          transaction_type: 'Withdraw',
-          amount: 5
-        )
-        expect { wallet_transaction.update_balance }.to change { wallet.balance }.from(10).to(5)
+        expect { new_transaction.update_balance }.to change {
+                                                       new_transaction.wallet.balance
+                                                     }.from(1000).to(500)
       end
     end
   end
 
   context 'validations' do
-    let(:wallet_transaction) { WalletTransaction.new }
+    it 'is valid with valid attributes' do
+      expect(wallet_transaction).to be_valid
+    end
+
     it 'is not a valid amount' do
+      wallet_transaction.amount = ''
+
       expect(wallet_transaction).to_not be_valid
       expect(wallet_transaction.errors).to be_present
       expect(wallet_transaction.errors.to_hash.keys).to include(:amount)
@@ -58,16 +62,12 @@ RSpec.describe WalletTransaction, type: :model do
     end
 
     it 'not enough balance for withdrawal' do
-      wallet = Wallet.new
-      wallet_transaction = wallet.wallet_transactions.build
-      wallet.balance = 500
-      wallet_transaction.transaction_type = 'Withdraw'
-      wallet_transaction.amount = 1000
+      new_transaction.amount = 2000
 
-      expect(wallet_transaction).to_not be_valid
-      expect(wallet_transaction.errors).to be_present
-      expect(wallet_transaction.errors.to_hash.keys).to include(:amount)
-      expect(wallet_transaction.errors[:amount]).to include('Insufficient Balance for withdrawal')
+      expect(new_transaction).to_not be_valid
+      expect(new_transaction.errors).to be_present
+      expect(new_transaction.errors.to_hash.keys).to include(:amount)
+      expect(new_transaction.errors[:amount]).to include('Insufficient Balance for withdrawal')
     end
   end
 end
