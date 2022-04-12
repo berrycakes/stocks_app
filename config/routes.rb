@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     put :watchlist, on: :member
   end
   resources :admins
-  resources :traders
+  resources :traders do
+    patch 'approve', to: 'traders#approve', as: 'approved'
+  end
   get 'wallet/new_transactions', to: 'wallet_transaction#new', as: 'new_wallet_transaction'
   get 'wallet/transactions', to: 'wallet_transaction#show', as: 'wallet_transaction'
   post 'wallet/transactions', to: 'wallet_transaction#create'
