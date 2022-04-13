@@ -26,14 +26,17 @@
       %td= display_currency(@stock.current_ath)
 
 .d-flex.flex-row.px-3.mx-5
-  .modals.d-flex.flex-column.justify-content-center.px-2.mx-5
-    .modal_buy.d-flex.flex-column.justify-content-center.align-items-center.p-2
+  .d-flex.flex-column.justify-content-center.px-2.mx-5
+    .btn-group
+      %button.btn.btn-outline-primary.active{:id => "toggle_buy_button"}= "BUY"
+      %button.btn.btn-outline-primary{:id => "toggle_sell_button"}= "SELL"
+    .form-group.d-flex.flex-column.justify-content-center.align-items-center.p-2{:id => "buy_container"}
       %p= "Available: #{display_currency(current_user.trader.wallet.balance)}"
-      = render 'stocks/transaction_buy_form', transaction: @transaction
-    .modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2
+      .form-group= render 'stocks/transaction_buy_form', transaction: @transaction
+    .form-group.modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2.d-none{:id => "sell_container"}
       %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
-      = render 'stocks/transaction_sell_form', transaction: @transaction
-  =render 'candlestick_chart', stock: @stock
+      .form-group= render 'stocks/transaction_sell_form', transaction: @transaction
+  =render 'stocks/candlestick_chart', stock: @stock
 
 = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
 = link_to 'Stocks', stocks_path

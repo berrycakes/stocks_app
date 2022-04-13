@@ -10,7 +10,11 @@ module ApplicationHelper
   end
 
   def display_currency(number)
-    number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",").to_s
+    if number > 1 || number < (-1)
+      number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",").to_s
+    else
+      number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",", precision: 6).to_s
+    end
   end
 
   def get_watchlist
