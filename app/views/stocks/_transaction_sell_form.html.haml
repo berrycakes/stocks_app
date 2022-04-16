@@ -11,15 +11,19 @@
     = form.hidden_field :price, :value => @stock.current_price
   .field
     = form.hidden_field :transaction_type, :value => "sell"
-  .field
-    = form.label :stock_share
-    = form.text_field :stock_share, :min=>0, :max=>@available, :value=>"0"
-    = form.range_field :range_share, :min=>0, :max=>@available, :class=>"slide", :id=>"slider", :value=>"0"
+  .w-100.d-flex.flex-column
+    .d-flex.flex-row.justify-content-between
+      .text-secondary.text-start= "Available: "
+      .text-secondary.text-end= "#{number_with_delimiter(@available)} #{@stock.symbol.upcase}"
+    .input-group.mb-3
+      = form.text_field :stock_share, :min=>0, :max=>@available, :class => "form-control", :value=>@available
+      %span.input-group-text#basic-addon2= @stock.symbol.upcase
+    = form.range_field :range_share, :min=>0, :max=>@available, :class=>"slide", :id=>"slider", :value=>@available
     - if transaction.errors.full_messages_for(:stock_share).any?
       - transaction.errors.full_messages_for(:stock_share).each do |error|
         %p= error
-  .container 
-    %p= "Total Amount"
-    %p#total_amount_container= display_simple_currency(0.00)
   .actions
-    = form.submit "Sell #{@stock.name.titleize}"
+    .d-flex.flex-row.justify-content-between.mt-5
+      .text-secondary.text-start= "Total Amount"
+      .text-secondary.text-end#total_amount_container= display_simple_currency(@available * @stock.current_price)
+    = form.submit "Sell #{@stock.name.titleize}", class: 'btn btn-danger w-100 p-2', data: { confirm: "Are you sure you want to sell #{@stock.name.titleize}?" }

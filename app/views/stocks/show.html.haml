@@ -1,42 +1,46 @@
 %p#notice= notice
-%h2
-  = image_tag(@stock.image, :size =>'60x60')
-  = "#{@stock.name} - #{@stock.symbol.upcase}"
+.d-flex.flex-row.align-items-center.justify-content-between.mx-5
+  .d-flex.flex-row.align-items-center
+    .m-3= image_tag(@stock.image, :size =>'60x60')
+    .d-flex.flex-column
+      .d-flex.flex-row.align-items-center
+        %h2.px-3=@stock.symbol.upcase
+        %h3.text-muted=@stock.name
+      .d-flex.flex-row.align-items-center
+        %h2.px-3{:id => "current_price", "data-stock-price" => @stock.current_price}= display_currency(@stock.current_price)
+        - if @stock.current_daily_change > 0 
+          %h5.text-success= "(#{number_to_percentage(@stock.current_daily_change)})"
+        - else
+          %h5.text-danger= "(#{number_to_percentage(@stock.current_daily_change)})"
+  .col-7.m-3.align-items-center.justify-content-center
+    %table.table
+      %thead
+        %tr
+          %th Market Cap
+          %th 24h Volume
+          %th 24h High 
+          %th 24h Low 
+          %th All-time High
+      %tbody
+        %tr
+          %td= display_currency(@stock.current_market_cap)
+          %td= display_currency(@stock.daily_volume)
+          %td= display_currency(@stock.current_daily_high)
+          %td= display_currency(@stock.current_daily_low)
+          %td= display_currency(@stock.current_ath)
 
-%table.table
-  %thead
-    %tr
-      %th Current Price
-      %th Market Cap
-      %th 24h High 
-      %th 24h Low 
-      %th % Change
-      %th All-time High
+.container.h-100
+  .d-flex.flex-row.mt-4.align-items-stretch.justify-content-center.h-100
+    .d-flex.flex-column.align-items-stretch.justify-content-center.p-5.col-4.shadow.bg-body.rounded
+      .btn-group
+        %button.btn.btn-outline-primary.active{:id => "toggle_buy_button"}= "BUY"
+        %button.btn.btn-outline-primary{:id => "toggle_sell_button"}= "SELL"
+      .h-100.w-100.d-flex.flex-column.justify-content-center.p-2{:id => "buy_container"}
+        = render 'stocks/transaction_buy_form', transaction: @transaction
+      .h-100.w-100.d-flex.flex-column.justify-content-center.p-2.d-none{:id => "sell_container"}
+        = render 'stocks/transaction_sell_form', transaction: @transaction
+      = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
+      = link_to 'Stocks', stocks_path
+    =render 'stocks/candlestick_chart', stock: @stock
 
-  %tbody
-    %tr
-      %td{:id => "current_price", "data-stock-price" => @stock.current_price}= display_currency(@stock.current_price)
-      %td= display_currency(@stock.current_market_cap)
-      %td= display_currency(@stock.current_daily_high)
-      %td= display_currency(@stock.current_daily_low)
-      - if @stock.current_daily_change > 0 
-        %td.text-success= number_to_percentage(@stock.current_daily_change)
-      - else
-        %td.text-danger= number_to_percentage(@stock.current_daily_change)
-      %td= display_currency(@stock.current_ath)
 
-.d-flex.flex-row.px-3.mx-5
-  .d-flex.flex-column.justify-content-center.px-2.mx-5
-    .btn-group
-      %button.btn.btn-outline-primary.active{:id => "toggle_buy_button"}= "BUY"
-      %button.btn.btn-outline-primary{:id => "toggle_sell_button"}= "SELL"
-    .form-group.d-flex.flex-column.justify-content-center.align-items-center.p-2{:id => "buy_container"}
-      %p= "Available: #{display_currency(current_user.trader.wallet.balance)}"
-      .form-group= render 'stocks/transaction_buy_form', transaction: @transaction
-    .form-group.modal_sell.d-flex.flex-column.justify-content-center.align-items-center.p-2.d-none{:id => "sell_container"}
-      %p.text-left= "Available:  #{@available} #{@stock.symbol.upcase}"
-      .form-group= render 'stocks/transaction_sell_form', transaction: @transaction
-  =render 'stocks/candlestick_chart', stock: @stock
-
-= link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
-= link_to 'Stocks', stocks_path

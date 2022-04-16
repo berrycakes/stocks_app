@@ -47,6 +47,10 @@ class Stock < ApplicationRecord
         self.get_data()[0].dig("ath")
     end
 
+    def daily_volume
+        self.get_data()[0].dig("total_volume")
+    end
+
     # used for minicharts
     def weekly_sparkline
         self.get_data()[0].dig("sparkline_in_7d", "price")
