@@ -21,7 +21,7 @@
     = form.range_field :range_share, :min=>0, :max=>get_max_buy(@stock), :class=>"slide", :id=>"slider", :value=>"0"
     - if transaction.errors.full_messages_for(:stock_share).any?
       - transaction.errors.full_messages_for(:stock_share).each do |error|
-        %p= error
+        .text-danger= error
   .actions
     .d-flex.flex-row.justify-content-between.mt-5
       .text-secondary.text-start= "Total Amount"

@@ -21,9 +21,13 @@
     = form.range_field :range_share, :min=>0, :max=>@available, :class=>"slide", :id=>"slider", :value=>@available
     - if transaction.errors.full_messages_for(:stock_share).any?
       - transaction.errors.full_messages_for(:stock_share).each do |error|
-        %p= error
+        .text-danger= error
   .actions
     .d-flex.flex-row.justify-content-between.mt-5
       .text-secondary.text-start= "Total Amount"
-      .text-secondary.text-end#total_amount_container= display_simple_currency(@available * @stock.current_price)
+      - if @available
+        .text-secondary.text-end#total_amount_container= display_simple_currency(@available * @stock.current_price)
+      -else
+        .text-secondary.text-end#total_amount_container= display_simple_currency(0)
+      
     = form.submit "Sell #{@stock.name.titleize}", class: 'btn btn-danger w-100 p-2', data: { confirm: "Are you sure you want to sell #{@stock.name.titleize}?" }
