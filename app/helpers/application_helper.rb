@@ -21,6 +21,10 @@ module ApplicationHelper
     number_to_currency(number, unit: "₱ ", separator: ".", delimiter: ",").to_s
   end
 
+  def display_big_currency(number)
+    "₱ #{number_to_human(number).delete_suffix('illion').delete_suffix('r')}"
+  end
+
   def get_watchlist
     current_user.trader.watchlists.pluck(:stock_id)
   end

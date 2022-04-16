@@ -1,45 +1,44 @@
 %p#notice= notice
-%h1 Stocks
-%table.table
-  %thead
-    %tr
-      %th{:colspan => "3"} Stock
-      %th Current Price
-      %th 24h High
-      %th 24h Low
-      %th 24h % Change
-      %th All-time High
-      %th{:colspan => "3"}
-  %tbody
-    - @stocks.each do |stock|
-      %tr
-        %td= image_tag(stock.image, :size =>'30x30')
-        %td= stock.name
-        %td= stock.symbol.upcase
-        - if stock.get_data != []
-          %td= display_currency(stock.current_price)
-          %td= display_currency(stock.current_daily_high)
-          %td= display_currency(stock.current_daily_low)
-          %td= number_to_percentage(stock.current_daily_change)
-          %td= display_currency(stock.current_ath)
-        - else
-          %td
-          %td
-          %td
-          %td
-          %td
-          %td
-        - if get_watchlist.include?(stock.id)
-          %td
-            = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
-              %i.bi.bi-star-fill          
-        -else
-          %td
-            = link_to watchlist_stock_path(stock, type: "watchlist"), method: :put do
-              %i.bi.bi-star 
-        %td= link_to 'Show', stock
-        %td= link_to 'Edit', edit_stock_path(stock)
-        %td= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br/
-= link_to 'New Stock', new_stock_path
+.container
+  %h1 Stocks
+  .px-5
+    %table.table.table-hover.align-middle
+      %thead
+        %tr
+          %th
+          %th Stock Name
+          %th Current Price
+          %th.text-center 24h Change
+          %th.text-center 24h Volume
+          %th.text-center Market Cap
+          %th
+      %tbody
+        - @stocks.each do |stock|
+          %tr
+            - if get_watchlist.include?(stock.id)
+              %td
+                = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
+                  %i.bi.bi-star-fill.link-warning          
+            -else
+              %td
+                = link_to watchlist_stock_path(stock, type: "watchlist"), method: :put do
+                  %i.bi.bi-star.link-secondary
+            %td.d-flex.flex-row.align-items-center
+              .py-1= image_tag(stock.image, :size =>'30x30')
+              .px-2= stock.symbol.upcase
+              .text-secondary= stock.name
+            - if stock.get_data != []
+              %td= display_currency(stock.current_price)
+              - if stock.current_daily_change > 0 
+                %td.text-center.text-success= number_to_percentage(stock.current_daily_change)
+              -else
+                %td.text-center.text-danger= number_to_percentage(stock.current_daily_change)
+              %td.text-center= display_big_currency(stock.daily_volume)
+              %td.text-center= display_big_currency(stock.current_market_cap)
+            - else
+              %td
+              %td
+              %td
+              %td
+            %td= link_to "Trade #{stock.symbol.upcase}", stock
+  .d-flex.justify-content-center= paginate @stocks
