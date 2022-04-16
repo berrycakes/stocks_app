@@ -15,7 +15,7 @@
 
   %tbody
     %tr
-      %td= display_currency(@stock.current_price)
+      %td{:id => "current_price", "data-stock-price" => @stock.current_price}= display_currency(@stock.current_price)
       %td= display_currency(@stock.current_market_cap)
       %td= display_currency(@stock.current_daily_high)
       %td= display_currency(@stock.current_daily_low)

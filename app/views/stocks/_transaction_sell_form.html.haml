@@ -13,10 +13,13 @@
     = form.hidden_field :transaction_type, :value => "sell"
   .field
     = form.label :stock_share
-    = form.text_field :stock_share
+    = form.text_field :stock_share, :min=>0, :max=>@available, :value=>"0"
+    = form.range_field :range_share, :min=>0, :max=>@available, :class=>"slide", :id=>"slider", :value=>"0"
     - if transaction.errors.full_messages_for(:stock_share).any?
       - transaction.errors.full_messages_for(:stock_share).each do |error|
         %p= error
-    
+  .container 
+    %p= "Total Amount"
+    %p#total_amount_container= display_simple_currency(0.00)
   .actions
     = form.submit "Sell #{@stock.name.titleize}"
