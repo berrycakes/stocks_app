@@ -21,7 +21,7 @@ class Trader < ApplicationRecord
     total_balance
   end
 
-  def percentage
+  def percent_change
     "#{(100*(profit_loss - wallet.total_balance)/wallet.total_balance).round(2)}%"
   end
 end
