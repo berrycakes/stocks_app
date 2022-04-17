@@ -1,33 +1,55 @@
 %p#notice= notice
-%h1 Portfolio
-%table.table
-  %thead
-    %tr
-      %th.text-center{:colspan => "3"} Stock
-      %th Stock shares 
-      %th Average Price
-      %th Current Price
-      %th Current Value
-      %th % Change
-      %th Profit / Loss
-      %th{:colspan => "3"}
-  %tbody
-    - @transactions.each do |transaction| 
-      -if get_total_stock_share(transaction.stock_id) > 0
+.container
+  %h1="Portfolio"
+  .d-flex.flex-row.align-items-stretch.justify-content-between.mx-5
+    .w-100.d-flex.flex-column.py-5.px-3.m-3.ps-5.ms-3
+      .d-flex.flex-column
+        %h5.text-secondary="Portfolio Value"
+        %h3.px-3="#{display_currency(current_profit_loss[:total_value])}"
+      .d-flex.flex-column
+        %h5.text-secondary="Portfolio Profit & Loss"
+        .d-flex.flex-row.align-items-center
+          -if current_profit_loss[:amount] > 0
+            %h3.px-3.text-success="#{display_currency(current_profit_loss[:amount])}"
+          -else current_profit_loss[:amount] > 0
+            %h3.px-3.text-danger="#{display_currency(current_profit_loss[:amount])}"
+          %h6.text-muted.px-2="(#{number_to_percentage(current_profit_loss[:percent])})"
+      .d-flex.flex-column
+        %h5.text-secondary="Cash Balance"
+        %h3.px-3="#{display_currency(current_user.trader.wallet.balance)}"
+    =render 'donut'
+  .px-5
+    %table.table.table-hover.align-middle
+      %thead
         %tr
-          %td= image_tag(transaction.stock.image, :size =>'30x30')
-          %td= transaction.stock.name
-          %td= transaction.stock.symbol.upcase
-          %td= get_total_stock_share(transaction.stock_id)
-          %td= display_currency(get_average_purchase_price(transaction.stock_id))
-          %td= display_currency(transaction.current_price)
-          %td= display_currency(get_current_value(transaction))
-          - if get_percent_change(transaction) > 0 
-            %td.text-success= number_to_percentage(get_percent_change(transaction))
-            %td.text-success= display_currency(get_profit_loss(transaction))
-          - else
-            %td.text-danger= number_to_percentage(get_percent_change(transaction))
-            %td.text-danger= display_currency(get_profit_loss(transaction))
-          %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
+          %th.text-center Stock Name
+          %th Stock shares 
+          %th Average Price
+          %th Current Price
+          %th Current Value
+          %th % Change
+          %th Profit & Loss
+          %th
+      %tbody
+        - @transactions.each do |transaction| 
+          -if get_total_stock_share(transaction.stock_id) > 0
+            %tr
+              %td.d-flex.flex-row.align-items-center
+                .py-1= image_tag(transaction.stock.image, :size =>'30x30')
+                .px-2= transaction.stock.symbol.upcase
+                .text-secondary= transaction.stock.name
+              %td= number_with_delimiter(get_total_stock_share(transaction.stock_id))
+              %td= display_currency(get_average_purchase_price(transaction.stock_id))
+              %td= display_currency(transaction.current_price)
+              %td= display_currency(get_current_value(transaction))
+              - if get_percent_change(transaction) > 0 
+                %td.text-success= number_to_percentage(get_percent_change(transaction))
+                %td.text-success= display_currency(get_profit_loss(transaction))
+              - else
+                %td.text-danger= number_to_percentage(get_percent_change(transaction))
+                %td.text-danger= display_currency(get_profit_loss(transaction))
+              %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
 
-= link_to 'Stocks', stocks_path
+  = link_to 'Stocks', stocks_path
+  %br
+  = link_to 'Show All Transactions', transactions_path

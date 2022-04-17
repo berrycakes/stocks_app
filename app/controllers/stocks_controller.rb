@@ -2,7 +2,14 @@ class StocksController < ApplicationController
   before_action :set_stock, only: %i[ show edit update destroy get_market_data watchlist]
 
   def index
-    @stocks = Stock.all
+    # @stocks = Stock.page(params[:page])
+    @stocks = Stock.search(params[:search])
+    if @stocks.class == Array
+      @stocks = Kaminari.paginate_array(@stocks).page(params[:page])
+    else
+      @stocks = @stocks.page(params[:page]) 
+    end
+    # @query = Stock.search(params[:search])
   end
 
   # GET /stocks/1 or /stocks/1.json
@@ -68,12 +75,12 @@ class StocksController < ApplicationController
     if type == "watchlist"
       watchlist = Watchlist.new(:trader_id => current_user.trader.id, :stock_id => @stock.id)
       watchlist.save
-      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} added to watchlist"
+      redirect_to root_url, notice: "Added #{@stock.name} to watchlist"
 
     elsif type == "unwatchlist"
       watchlist = Watchlist.where(:trader_id => current_user.trader.id, :stock_id => @stock.id).ids[0]
       Watchlist.destroy(watchlist)
-      # redirect_back(fallback_location:"/"), notice: "#{@stock.name} removed from watchlist"
+      redirect_to root_url, notice: "Removed #{@stock.name} from watchlist"
 
     else
       redirect_to stocks_url, notice: 'No action'

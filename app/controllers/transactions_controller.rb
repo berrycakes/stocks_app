@@ -1,20 +1,24 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
-  # before_action :authenticate_admin, only: [:index]
-  before_action :authenticate_trader, only: %i[portfolio show_portfolio create]
+  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_trader, only: %i[index portfolio show_portfolio create]
   before_action :set_transaction, only: %i[show edit update destroy]
 
   # GET /transactions or /transactions.json
   def index
     if current_user && current_user.trader
-      @transactions = Transaction.where(trader_id: current_user.trader.id)
+      @transactions = Transaction.where(trader_id: current_user.trader.id).order(date: :desc).page(params[:page])
     else
-      @transactions = Transaction.all
+      @transactions = Transaction.all.order(date: :desc).page(params[:page])
     end
   end
 
   # GET /transactions/1 or /transactions/1.json
   def show
+  end
+
+  def new
+    @stocks = Stock.all
   end
 
   # GET /transactions/portfolio
@@ -28,9 +32,9 @@ class TransactionsController < ApplicationController
   def show_portfolio
     @stock = Stock.find(params[:id])
     if current_user && current_user.trader
-      @transactions = Transaction.where(trader_id: current_user.trader.id).where(:stock_id => params.dig("id"))
+      @transactions = Transaction.where(trader_id: current_user.trader.id).where(:stock_id => params.dig("id")).order(date: :desc)
     else
-      @transactions = Transaction.where(:stock_id => params.dig("id"))
+      @transactions = Transaction.where(:stock_id => params.dig("id")).order(date: :desc)
     end
   end
 

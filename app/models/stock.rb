@@ -47,6 +47,10 @@ class Stock < ApplicationRecord
         self.get_data()[0].dig("ath")
     end
 
+    def daily_volume
+        self.get_data()[0].dig("total_volume")
+    end
+
     # used for minicharts
     def weekly_sparkline
         self.get_data()[0].dig("sparkline_in_7d", "price")
@@ -67,4 +71,14 @@ class Stock < ApplicationRecord
     def available_shares
         total_shares.dig("sell") ? total_shares.dig("buy") - total_shares.dig("sell") : total_shares.dig("buy")
     end
+
+    def self.search(search)
+        if search
+            wildcard_search = "%#{search}%"
+            Stock.where("name ILIKE :search OR symbol ILIKE :search OR slug ILIKE :search", search: wildcard_search)
+        else
+            Stock.all
+        end
+    end
+
 end
