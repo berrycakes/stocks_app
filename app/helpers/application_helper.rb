@@ -33,4 +33,11 @@ module ApplicationHelper
     current_user.trader.wallet.balance / stock.current_price
   end
 
+  def complete_account_details
+    current_user.trader.first_name != "" && current_user.trader.last_name != "" && current_user.trader.mobile_number != "" ? true : false
+  end
+
+  def account_setup
+    complete_account_details && current_user.trader.approved && current_user.trader.wallet.balance > 0 && current_user.trader.transactions.count > 0 ? true : false
+  end 
 end
