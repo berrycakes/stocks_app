@@ -17,7 +17,7 @@
             .text-secondary= @transaction.stock.name
         .mx-5.px-3.py-1.d-flex.flex-row.align-items-center.justify-content-between
           .px-2= "Stock share"
-          = @transaction.stock_share
+          = number_with_delimiter(@transaction.stock_share)
         .mx-5.px-3.py-1.d-flex.flex-row.align-items-center.justify-content-between
           .px-2= "Stock Price"
           = display_currency(@transaction.price)

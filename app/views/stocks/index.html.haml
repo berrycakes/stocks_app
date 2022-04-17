@@ -1,10 +1,11 @@
 %p#notice= notice
 .container
-  %h1 Stocks
-  = form_tag stocks_path, :method => 'get' do
-    %p
-      =text_field_tag :search, params[:search]
-      =submit_tag "Search", :name => nil 
+  .d-flex.flex-row.my-3.align-items-center.justify-content-between
+    %h1 Stocks
+    = form_tag stocks_path, :method => 'get' do
+      .d-flex.flex-row.mx-sm-3.align-items-center
+        =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
+        =submit_tag "Search", :name => nil, :class => "btn btn-warning p-2"
   .px-5
     %table.table.table-hover.align-middle
       %thead

@@ -1,15 +1,18 @@
 .container
     -if user_signed_in?
         - if current_user.role == 'trader'
-            %h1 Hello Trader #{current_user.trader.first_name}
+            .d-flex.flex-row.my-3.align-items-center.justify-content-between
+                %h1 Hello Trader #{current_user.trader.first_name}
+                = form_tag stocks_path, :method => 'get' do
+                    .d-flex.flex-row.mx-sm-3.align-items-center
+                        =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
+                        =submit_tag "Search", :name => nil, :class => "btn btn-warning p-2"
+
             %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
             %p #{display_currency(current_user.trader.profit_loss)} (#{current_user.trader.percentage})
 
-        = form_tag stocks_path, :method => 'get' do
-            %p
-                =text_field_tag :search, params[:search]
-                =submit_tag "Search", :name => nil 
-
+        
+        
         - if current_user.trader.watches && current_user.trader.watches != []
             %h2 My Watchlist
             .px-5
@@ -36,10 +39,11 @@
                                     %td
                                         = link_to watchlist_stock_path(stock, type: "watchlist"), method: :put do
                                             %i.bi.bi-star.link-secondary
-                                %td.d-flex.flex-row.align-items-center
-                                    = image_tag(stock.image, :size =>'30x30')
-                                    .px-2= stock.symbol.upcase
-                                    .text-secondary= stock.name
+                                %td
+                                    .d-flex.flex-row.align-items-center
+                                        = image_tag(stock.image, :size =>'30x30')
+                                        .px-2= stock.symbol.upcase
+                                        .text-secondary= stock.name
                                 - if stock.get_data != []
                                     %td= display_currency(stock.current_price)
                                     - if stock.current_daily_change > 0 

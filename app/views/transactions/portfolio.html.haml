@@ -38,7 +38,7 @@
                 .py-1= image_tag(transaction.stock.image, :size =>'30x30')
                 .px-2= transaction.stock.symbol.upcase
                 .text-secondary= transaction.stock.name
-              %td= get_total_stock_share(transaction.stock_id)
+              %td= number_with_delimiter(get_total_stock_share(transaction.stock_id))
               %td= display_currency(get_average_purchase_price(transaction.stock_id))
               %td= display_currency(transaction.current_price)
               %td= display_currency(get_current_value(transaction))
@@ -51,3 +51,5 @@
               %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
 
   = link_to 'Stocks', stocks_path
+  %br
+  = link_to 'Show All Transactions', transactions_path
