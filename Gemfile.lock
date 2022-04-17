@@ -312,7 +312,6 @@ DEPENDENCIES
   devise
   erb2haml
   factory_bot_rails (~> 6.2.0)
-  groupdate
   haml
   httparty
   jbuilder (~> 2.7)

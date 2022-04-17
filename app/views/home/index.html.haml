@@ -7,9 +7,9 @@
                     .d-flex.flex-row.mx-sm-3.align-items-center
                         =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
                         =submit_tag "Search", :name => nil, :class => "btn btn-warning p-2"
-
-            %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
-            %p #{display_currency(current_user.trader.profit_loss)} (#{current_user.trader.percentage})
+            .d-flex.flex-column.mb-4
+                %h5.text-secondary="Cash Balance"
+                %h3.px-3="#{display_currency(current_user.trader.wallet.balance)}"
 
         
         
