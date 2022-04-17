@@ -2,7 +2,14 @@ class StocksController < ApplicationController
   before_action :set_stock, only: %i[ show edit update destroy get_market_data watchlist]
 
   def index
-    @stocks = Stock.page(params[:page])
+    # @stocks = Stock.page(params[:page])
+    @stocks = Stock.search(params[:search])
+    if @stocks.class == Array
+      @stocks = Kaminari.paginate_array(@stocks).page(params[:page])
+    else
+      @stocks = @stocks.page(params[:page]) 
+    end
+    # @query = Stock.search(params[:search])
   end
 
   # GET /stocks/1 or /stocks/1.json

@@ -1,6 +1,10 @@
 %p#notice= notice
 .container
   %h1 Stocks
+  = form_tag stocks_path, :method => 'get' do
+    %p
+      =text_field_tag :search, params[:search]
+      =submit_tag "Search", :name => nil 
   .px-5
     %table.table.table-hover.align-middle
       %thead

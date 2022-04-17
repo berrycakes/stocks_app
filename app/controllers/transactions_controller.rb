@@ -17,6 +17,10 @@ class TransactionsController < ApplicationController
   def show
   end
 
+  def new
+    @stocks = Stock.all
+  end
+
   # GET /transactions/portfolio
   def portfolio
     @stocks = Stock.all

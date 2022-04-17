@@ -5,6 +5,11 @@
             %p Buying Power #{display_currency(current_user.trader.wallet.balance)}
             %p #{display_currency(current_user.trader.profit_loss)} (#{current_user.trader.percentage})
 
+        = form_tag stocks_path, :method => 'get' do
+            %p
+                =text_field_tag :search, params[:search]
+                =submit_tag "Search", :name => nil 
+
         - if current_user.trader.watches && current_user.trader.watches != []
             %h2 My Watchlist
             .px-5
