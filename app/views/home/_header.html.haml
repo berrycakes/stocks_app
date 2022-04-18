@@ -22,7 +22,16 @@
                   = link_to 'Transactions', transactions_path, class: 'dropdown-item'
             = link_to 'Admins', admins_path, class: 'btn'
           - elsif current_user.role == 'trader'
-            = link_to 'My Portfolio', portfolio_path, class: 'btn'
+            %li.nav-item.dropdown
+              %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
+                Stocks
+              %ul.dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+                %li
+                  = link_to 'Stocks List', stocks_path, class: 'dropdown-item'
+                %li
+                  = link_to 'My Portfolio', portfolio_path, class: 'dropdown-item'
+                %li
+                  = link_to 'Transactions', transactions_path, class: 'dropdown-item'
             %li.nav-item.dropdown
               %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
                 Wallet
@@ -31,7 +40,6 @@
                   = link_to 'Transactions', wallet_transaction_path, class: 'dropdown-item'
                 %li
                   = link_to 'Deposit/Withdraw', new_wallet_transaction_path, class: 'dropdown-item'
-            = link_to 'Stocks', stocks_path, class: 'btn'
           %li.nav-item.dropdown
             %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
               Account
