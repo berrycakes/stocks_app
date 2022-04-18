@@ -10,6 +10,6 @@
   - if !account_setup
     =render 'account_setup'   
 - else 
-    %h1 Hello Admin #{current_user.admin.first_name}
-    = render 'admin_home'
+  %h1 Hello Admin #{current_user.admin.first_name}
+  = render 'admin_home'
 
