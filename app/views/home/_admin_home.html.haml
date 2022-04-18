@@ -1,25 +1,26 @@
 .row
-  .col-4
+  .col-6
     .card.text-white.bg-primary.mb-3
       .card-body
-        %h1.display-4
+        %h1.display-1
           = Trader.count
-        %p.card-text Total Traders
+        %p.card-text.fs-2 Total Traders
       .card-footer.text-center
         = link_to 'See All Traders', traders_path, class: 'text-white'
-  .col-4
+  .col-6
     .card.text-white.bg-primary.mb-3
       .card-body
-        %h1.display-4
+        %h1.display-1
           = display_currency(WalletTransaction.total_deposit.sum(:amount) - WalletTransaction.total_withdrawal.sum(:amount))
-        %p.card-text Total Money
+        %p.card-text.fs-2 Total Money
       .card-footer.text-center
         More info
+.row
   .col-4
     .card.text-white.bg-primary.mb-3
       .card-body
-        %h1.display-4
+        %h1.display-1
           = Transaction.count
-        %p.card-text Total Transactions
+        %p.card-text.fs-2 Total Transactions
       .card-footer.text-center
         = link_to 'See All Transactions', transactions_path, class: 'text-white'
