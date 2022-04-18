@@ -36,7 +36,7 @@ class Transaction < ApplicationRecord
         errors.add(:stock_share, "insufficient balance")
       end
 
-      if transaction_type == "sell" && stock_share > Stock.find(stock_id).available_shares
+      if transaction_type == "sell" && stock_share > Stock.find(stock_id).available_shares(current_user.trader.id)
         errors.add(:stock_share, "greater than available. Insufficient balance")
       end 
     end
