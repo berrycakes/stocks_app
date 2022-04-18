@@ -1,0 +1,41 @@
+<div class='row'>
+	<div class='col-4'>
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+				<h1 class="display-4">
+					<%= Trader.count %>
+				</h2>
+				<p class="card-text">Total Traders</p>
+			</div>
+			<div class="card-footer text-center">
+				<%= link_to 'See All Traders', traders_path, class: 'text-white'%>
+			</div>
+		</div>
+	</div>
+	<div class='col-4'>
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+				<h1 class="display-4">
+					<%= display_currency(WalletTransaction.total_deposit.sum(:amount) - WalletTransaction.total_withdrawal.sum(:amount)) %>
+				</h2>
+				<p class="card-text">Total Money</p>
+			</div>
+			<div class="card-footer text-center">
+				More info
+			</div>
+		</div>
+	</div>
+	<div class='col-4'>
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+				<h1 class="display-4">
+					<%= Transaction.count %>
+				</h2>
+				<p class="card-text">Total Transactions</p>
+			</div>
+			<div class="card-footer text-center">
+				<%= link_to 'See All Transactions', transactions_path, class: 'text-white'%>
+			</div>
+		</div>
+	</div>
+</div>

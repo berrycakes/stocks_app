@@ -11,9 +11,11 @@
 	</head>
 	<body>
 		<%= render 'home/header'%>
-		<% if notice || alert %>
-			<%= render 'layouts/alerts' %>
-		<% end %>
-		<%= yield %>
+		<div class='container table-responsive mt-4'>
+			<% if notice || alert %>
+				<%= render 'layouts/alerts' %>
+			<% end %>
+			<%= yield %>
+		</div>
 	</body>
 </html>
