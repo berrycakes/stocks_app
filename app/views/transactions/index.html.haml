@@ -1,37 +1,35 @@
 %p#notice= notice
-%h1 Transactions
-%table.table
-  %thead
-    %tr
-      %th User
-      %th Date
-      %th Type
-      %th.text-center{:colspan => "3"} Stock
-      %th Purchase Price
-      %th Stock shares 
-      %th Purchase Value
-      %th Current Value
-      %th % Change
-      %th Profit / Loss
-      %th{:colspan => "3"}
-  %tbody
-    - @transactions.each do |transaction|
-      %tr
-        %td= transaction.trader_id
-        %td= transaction.date.strftime("%d %b %Y %T %p")
-        %td= transaction.transaction_type.upcase
-        %td= image_tag(transaction.stock.image, :size =>'30x30')
-        %td= transaction.stock.name
-        %td= transaction.stock.symbol.upcase
-        %td= display_currency(transaction.price)
-        %td= transaction.stock_share
-        %td= display_currency(transaction.purchase_value)
-        %td= display_currency(transaction.current_value)
-        - if transaction.percent_change > 0 
-          %td.text-success= number_to_percentage(transaction.percent_change)
-          %td.text-success= display_currency(transaction.profit_loss)
-        - else
-          %td.text-danger= number_to_percentage(transaction.percent_change)
-          %td.text-danger= display_currency(transaction.profit_loss)
-        %td= link_to 'Show', transaction
-= link_to 'Stocks', stocks_path
+.container
+  %h1 Transactions
+  .px-5
+    %table.table.table-hover.align-middle
+      %thead
+        %tr
+          -if current_user.admin
+            %th Trader ID
+          %th.text-center Date
+          %th Type
+          %th.text-center Stock Name
+          %th Purchase Price
+          %th Stock shares 
+          %th
+      %tbody
+        - @transactions.each do |transaction|
+          %tr
+            -if current_user.admin 
+              %td= transaction.trader_id
+            %td.text-center= transaction.date.strftime("%d %b %Y %T %p")
+            - if transaction.transaction_type == "buy"
+              %td
+                .text-success= transaction.transaction_type.upcase
+            - else 
+              %td
+                .text-danger= transaction.transaction_type.upcase
+            %td.d-flex.flex-row.align-items-center.justify-content-center
+              .py-1= image_tag(transaction.stock.image, :size =>'30x30')
+              .px-2= transaction.stock.symbol.upcase
+              .text-secondary= transaction.stock.name
+            %td= display_currency(transaction.price)
+            %td= number_with_delimiter(transaction.stock_share)
+            %td= link_to 'Show', transaction
+    .d-flex.justify-content-center= paginate @transactions

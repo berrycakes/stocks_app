@@ -1,0 +1,65 @@
+.d-flex.flex-row.justify-content-around.align-items-center.shadow.rounded.py-4.mx-5.mb-5
+    .d-flex.flex-column
+        %h5.text-secondary="Cash Balance"
+        %h3.px-3="#{display_currency(current_user.trader.wallet.balance)}"
+    .d-flex.flex-column
+        %h5.text-secondary="Portfolio Value"
+        %h3.px-3="#{display_currency(current_profit_loss[:total_value])}"
+    .d-flex.flex-column
+        %h5.text-secondary="Portfolio Profit & Loss"
+        .d-flex.flex-row.align-items-center
+        -if current_profit_loss[:amount] > 0
+            %h3.px-3.text-success="#{display_currency(current_profit_loss[:amount])}"
+        -else current_profit_loss[:amount] > 0
+            %h3.px-3.text-danger="#{display_currency(current_profit_loss[:amount])}"
+        %h6.text-muted.px-2="(#{number_to_percentage(current_profit_loss[:percent])})"
+
+- if current_user.trader.watches && current_user.trader.watches != []
+    %h2 My Watchlist
+    .px-5
+        %table.table.table-hover.align-middle
+            %thead
+                %tr
+                    %th
+                    %th Stock Name
+                    %th Current Price
+                    %th.text-center 24h Change
+                    %th.text-center 24h Volume
+                    %th.text-center Market Cap
+                    %th.text-center Last 7 Days
+                    %th
+            %tbody
+                - stocks = current_user.trader.watches
+                - stocks.each do |stock|
+                    %tr
+                        - if get_watchlist.include?(stock.id)
+                            %td
+                                = link_to watchlist_stock_path(stock, type: "unwatchlist"), method: :put do
+                                    %i.bi.bi-star-fill.link-warning          
+                        -else
+                            %td
+                                = link_to watchlist_stock_path(stock, type: "watchlist"), method: :put do
+                                    %i.bi.bi-star.link-secondary
+                        %td
+                            .d-flex.flex-row.align-items-center
+                                = image_tag(stock.image, :size =>'30x30')
+                                .px-2= stock.symbol.upcase
+                                .text-secondary= stock.name
+                        - if stock.get_data != []
+                            %td= display_currency(stock.current_price)
+                            - if stock.current_daily_change > 0 
+                                %td.text-center.text-success= number_to_percentage(stock.current_daily_change)
+                            -else
+                                %td.text-center.text-danger= number_to_percentage(stock.current_daily_change)
+                            %td.text-center= display_big_currency(stock.daily_volume)
+                            %td.text-center= display_big_currency(stock.current_market_cap)
+                            =render 'sparkline', stock: stock
+                        - else
+                            %td
+                            %td
+                            %td
+                            %td
+                            %td
+                        %td= link_to "Trade #{stock.symbol.upcase}", stock
+-else
+    = link_to 'Add Stocks to Watchlist', stocks_path

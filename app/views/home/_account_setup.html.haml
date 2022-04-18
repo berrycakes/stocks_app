@@ -1,0 +1,28 @@
+.d-flex.flex-row.justify-content-center.mt-5.align-items-center
+    .card.shadow{:style => "width: 30rem;"}
+        .p-3.card-header.text-center= "ACCOUNT SETUP"
+        %ul.py-3.list-group.list-group-flush
+            %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
+                = link_to 'Edit Personal Details', edit_trader_path(current_user.trader)
+                - if complete_account_details
+                    %i.bi.bi-check-circle.text-success
+                - else 
+                    %i.bi.bi-check-circle.text-danger
+            %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
+                = "Wait for Account Approval"
+                - if current_user.trader.approved
+                    %i.bi.bi-check-circle.text-success
+                - else 
+                    %i.bi.bi-check-circle.text-danger
+            %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
+                = link_to 'Add Funds to Wallet', new_wallet_transaction_path
+                - if current_user.trader.wallet.balance > 0
+                    %i.bi.bi-check-circle.text-success
+                - else 
+                    %i.bi.bi-check-circle.text-danger
+            %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
+                = link_to 'Start Trading', stocks_path
+                - if current_user.trader.transactions.count > 0
+                    %i.bi.bi-check-circle.text-success
+                - else 
+                    %i.bi.bi-check-circle.text-danger

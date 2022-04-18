@@ -29,6 +29,36 @@ module TransactionsHelper
     end
 
     def get_percent_change(transaction)
-        get_profit_loss(transaction) / get_average_purchase_price(transaction.stock_id)
+        get_profit_loss(transaction) / (get_average_purchase_price(transaction.stock_id) * get_total_stock_share(transaction.stock_id))
     end
+
+    def donut_chart_data
+        assets = []
+        current_user.trader.stocks.distinct.each do |stock|
+            value = stock.available_shares * stock.current_price
+            if value > 0
+                new_asset = {name: stock.name, data: value.to_f}
+                assets.push(new_asset)
+            end
+        end
+        return assets
+    end
+
+    # profit for currently owned assets
+    def current_profit_loss
+        total_value = 0
+        amount = 0
+        percent = 0
+        current_user.trader.stocks.distinct.each do |stock|
+            if stock.available_shares > 0
+                value = (stock.available_shares * stock.current_price)
+                average_value = stock.available_shares * get_average_purchase_price(stock.id)
+                total_value += value
+                amount += value - average_value
+                percent += (value - average_value) / value
+            end
+        end
+        return {total_value: total_value, amount: amount, percent: percent}
+    end
+
 end

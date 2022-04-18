@@ -38,20 +38,63 @@ document.addEventListener('turbolinks:load', () => {
 
 // change view to buy or sell
 document.addEventListener('turbolinks:load', () => {
-	const toggleBuyButton = document.querySelector('#toggle_buy_button');
-	const toggleSellButton = document.querySelector('#toggle_sell_button');
-	const toggleBuyContainer = document.querySelector('#buy_container');
-	const toggleSellContainer = document.querySelector('#sell_container');
-	toggleBuyButton.addEventListener('click', () => {
-		toggleBuyButton.classList.toggle('active');
-		toggleSellButton.classList.toggle('active');
-		toggleBuyContainer.classList.toggle('d-none');
-		toggleSellContainer.classList.toggle('d-none');
-	});
-	toggleSellButton.addEventListener('click', () => {
-		toggleBuyButton.classList.toggle('active');
-		toggleSellButton.classList.toggle('active');
-		toggleBuyContainer.classList.toggle('d-none');
-		toggleSellContainer.classList.toggle('d-none');
-	});
-});
+  dynamicValues('buy')
+  const toggleBuyButton = document.querySelector('#toggle_buy_button')
+  const toggleSellButton = document.querySelector('#toggle_sell_button')
+  const toggleBuyContainer = document.querySelector('#buy_container')
+  const toggleSellContainer = document.querySelector('#sell_container')
+
+  toggleBuyButton.addEventListener('click', () => {
+    toggleBuyButton.classList.toggle('active')
+    toggleSellButton.classList.toggle('active')
+    toggleBuyContainer.classList.toggle('d-none')
+    toggleSellContainer.classList.toggle('d-none')
+    dynamicValues('buy')
+  })
+  toggleSellButton.addEventListener('click', () => {
+    toggleBuyButton.classList.toggle('active')
+    toggleSellButton.classList.toggle('active')
+    toggleBuyContainer.classList.toggle('d-none')
+    toggleSellContainer.classList.toggle('d-none')
+    dynamicValues('sell')
+  })
+})
+// use range slider for input
+const dynamicValues = (type) => {
+  let input =
+    type === 'buy'
+      ? document.querySelectorAll('#transaction_stock_share')[0]
+      : document.querySelectorAll('#transaction_stock_share')[1]
+  let slider =
+    type === 'buy'
+      ? document.querySelectorAll('#slider')[0]
+      : document.querySelectorAll('#slider')[1]
+  let totalAmountContainer =
+    type === 'buy'
+      ? document.querySelectorAll('#total_amount_container')[0]
+      : document.querySelectorAll('#total_amount_container')[1]
+  slider.addEventListener('input', (e) => {
+    slider.value = e.target.value
+    input.value = e.target.value
+    const stockPrice = parseFloat(
+      document.querySelector('#current_price').dataset.stockPrice
+    )
+    totalAmountContainer.innerHTML =
+      '₱ ' +
+      parseFloat(e.target.value * stockPrice)
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+  })
+  input.addEventListener('input', (e) => {
+    input.value = e.target.value
+    slider.value = e.target.value
+    const stockPrice = parseFloat(
+      document.querySelector('#current_price').dataset.stockPrice
+    )
+    totalAmountContainer.innerHTML =
+      '₱ ' +
+      parseFloat(e.target.value * stockPrice)
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, '$&,')
+  })
+}
