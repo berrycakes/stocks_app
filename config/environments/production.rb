@@ -118,6 +118,17 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # !!!-To update when deployed to heroku app for production-!!!
-  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'https://stocks-app-avion.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: ENV['SENDMAIL_USERNAME'],
+    password: ENV['SENDMAIL_PASSWORD'],
+    domain: 'gmail.com',
+    address: 'smtp.gmail.com',
+    port: 465,
+    authentication: :plain,
+    ssl: true,
+    tsl: true,
+    enable_starttls_auto: true
+  }
 end
