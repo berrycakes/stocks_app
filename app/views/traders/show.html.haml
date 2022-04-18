@@ -1,16 +1,8 @@
-%p#notice= notice
-%p
-  %strong Email:
-  = @trader.user.email
-%p
-  %strong First name:
-  = @trader.first_name
-%p
-  %strong Last name:
-  = @trader.last_name
-%p
-  %strong Mobile number:
-  = @trader.mobile_number
-%p
-  %strong Approved:
-  = @trader.approved
+%h2 Account Overview
+.row
+  %p #{@trader.first_name} #{@trader.last_name}
+  %p= @trader.user.email
+  %p Mobile: #{@trader.mobile_number}
+.row
+  %h4 Wallet
+  %p You currently have #{display_currency(@trader.wallet.balance)} in your wallet 
