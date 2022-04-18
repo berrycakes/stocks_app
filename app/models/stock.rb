@@ -4,6 +4,13 @@ class Stock < ApplicationRecord
     has_many :watched_by, through: :watchlists, source: :trader
     accepts_nested_attributes_for :transactions
 
+    validates :name, presence: true, length: { in: 2..50 }, uniqueness: true
+    validates :image, presence: true, uniqueness: true
+    validates_format_of :image, :with => URI::regexp(%w[http https])
+    validates :symbol, presence: true, length: { in: 2..10 }, uniqueness: true
+    validates :slug, presence: true, length: { in: 2..50 }, uniqueness: true
+    validates_format_of :slug, :with =>  /\A(?!\d+\z)[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\\/<>?,]+\z/
+
     @@market_data = []
 
     def self.get_market_data(currency)
@@ -64,12 +71,12 @@ class Stock < ApplicationRecord
         response.map { |x| [Time.at(x.shift/1000),  x.drop(0)]}
     end
 
-    def total_shares
-        self.transactions.group(:transaction_type).sum(:stock_share)
+    def total_shares(trader)
+        self.transactions.where(:trader_id => trader).group(:transaction_type).sum(:stock_share)
     end
 
-    def available_shares
-        total_shares.dig("sell") ? total_shares.dig("buy") - total_shares.dig("sell") : total_shares.dig("buy")
+    def available_shares(trader)
+        total_shares(trader).dig("sell") ? total_shares(trader).dig("buy") - total_shares(trader).dig("sell") : total_shares(trader).dig("buy")
     end
 
     def self.search(search)

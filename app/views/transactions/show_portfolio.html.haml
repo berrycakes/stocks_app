@@ -64,6 +64,13 @@
               %td.text-danger= number_to_percentage(transaction.percent_change)
               %td.text-danger= display_currency(transaction.profit_loss)
             %td= link_to 'Show', transaction
+      %tfoot
+        %tr
+          %th{:colspan => "2"}
+          %th= display_currency(get_average_purchase_price(@stock.id))
+          %th= number_with_delimiter(get_total_stock_share(@stock.id))
+          %th= display_currency(get_total_purchase_value(@stock.id))
+          %th{:colspan => "4"} 
 
   = link_to 'Portfolio', portfolio_path
   %br

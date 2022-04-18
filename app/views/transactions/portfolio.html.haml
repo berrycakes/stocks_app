@@ -27,8 +27,7 @@
           %th Average Price
           %th Current Price
           %th Current Value
-          %th % Change
-          %th Profit & Loss
+          %th.text-center Profit & Loss
           %th
       %tbody
         - @transactions.each do |transaction| 
@@ -42,12 +41,14 @@
               %td= display_currency(get_average_purchase_price(transaction.stock_id))
               %td= display_currency(transaction.current_price)
               %td= display_currency(get_current_value(transaction))
-              - if get_percent_change(transaction) > 0 
-                %td.text-success= number_to_percentage(get_percent_change(transaction))
-                %td.text-success= display_currency(get_profit_loss(transaction))
-              - else
-                %td.text-danger= number_to_percentage(get_percent_change(transaction))
-                %td.text-danger= display_currency(get_profit_loss(transaction))
+              %td
+                .d-flex.flex-row
+                  - if get_percent_change(transaction) > 0 
+                    .text-success= display_currency(get_profit_loss(transaction))
+                  - else
+                    .text-danger= display_currency(get_profit_loss(transaction))
+                  .text-muted.px-1= "(#{number_to_percentage(get_percent_change(transaction))})"
+               
               %td= link_to 'Show Transactions',  portfolio_path + "/#{transaction.stock_id}"
 
   = link_to 'Stocks', stocks_path

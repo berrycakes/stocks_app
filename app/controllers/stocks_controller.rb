@@ -15,8 +15,8 @@ class StocksController < ApplicationController
   # GET /stocks/1 or /stocks/1.json
   def show
     @transaction = Transaction.new
-    if @stock.available_shares
-      @available = @stock.available_shares
+    if @stock.available_shares(current_user.trader.id)
+      @available = @stock.available_shares(current_user.trader.id)
     else  
       @available = 0
     end
