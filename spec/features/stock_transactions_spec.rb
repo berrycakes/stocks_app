@@ -17,7 +17,7 @@ RSpec.feature 'Stock Transactions', type: :feature do
 
     expect(page).to have_text('Solana')
     fill_in('Buy Investment Shares', with: '5')
-    click_button('Buy Solana')
+    click_button('BUY Solana')
 
     expect(page).to have_text('BUY ORDER FULFILLED')
     expect(page).to have_text('Solana')
@@ -34,7 +34,7 @@ RSpec.feature 'Stock Transactions', type: :feature do
     expect(page).to have_text('Solana')
     find_button(id: 'toggle_sell_button').click
     fill_in('Sell Investment Shares', with: '4')
-    click_button('Sell Solana')
+    click_button('SELL Solana')
 
     expect(page).to have_text('SELL ORDER FULFILLED')
     expect(page).to have_text('Solana')
