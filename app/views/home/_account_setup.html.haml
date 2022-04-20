@@ -7,22 +7,22 @@
                 - if complete_account_details
                     %i.bi.bi-check-circle.text-success
                 - else 
-                    %i.bi.bi-check-circle.text-danger
+                    %i.bi.bi-x-circle.text-danger
             %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
                 = "Wait for Account Approval"
                 - if current_user.trader.approved
                     %i.bi.bi-check-circle.text-success
                 - else 
-                    %i.bi.bi-check-circle.text-danger
+                    %i.bi.bi-x-circle.text-danger
             %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
                 = link_to 'Add Funds to Wallet', new_wallet_transaction_path
                 - if current_user.trader.wallet.balance > 0
                     %i.bi.bi-check-circle.text-success
                 - else 
-                    %i.bi.bi-check-circle.text-danger
+                    %i.bi.bi-x-circle.text-danger
             %li.px-5.list-group-item.d-flex.flex-row.justify-content-between.align-items-center 
                 = link_to 'Start Trading', stocks_path
                 - if current_user.trader.transactions.count > 0
                     %i.bi.bi-check-circle.text-success
                 - else 
-                    %i.bi.bi-check-circle.text-danger
+                    %i.bi.bi-x-circle.text-danger
