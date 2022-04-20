@@ -1,5 +1,4 @@
-%h4
-  Edit #{@user.trader.first_name}
+%h2.mb-5.text-secondary Edit #{@user.trader.first_name}
 = form_with(model: @user, as: resource_name, url: admin_update_trader_path(@user.id), method: 'patch') do |f|
   = render "devise/shared/error_messages", user: @user
   .field.form-floating.mb-4.col-6

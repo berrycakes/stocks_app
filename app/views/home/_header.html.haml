@@ -1,13 +1,13 @@
-%nav.navbar.navbar-expand-lg.navbar-light.bg-light
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light.navbar-text.border-bottom.border-primary.border-2
   .container-fluid
-    = link_to 'Stocks App', root_path, class: 'navbar-brand link-color'
+    = link_to 'Stocks App', root_path, class: 'navbar-brand link-color text-primary'
     %button.navbar-toggler{"aria-controls" => "navbarNavAltMarkup", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNavAltMarkup", "data-bs-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
     #navbarNavAltMarkup.collapse.navbar-collapse
       .navbar-nav
         - if user_signed_in?
           - if current_user.role == 'admin'
-            = link_to 'Create A New Account', new_user_registration_path, class: 'btn'
+            = link_to 'Create A New Account', new_user_registration_path, class: 'nav-link'
             %li.nav-item.dropdown
               %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
                 Traders
@@ -20,7 +20,7 @@
                     %span.badge.bg-primary #{Trader.pending_approval.count}
                 %li
                   = link_to 'Transactions', transactions_path, class: 'dropdown-item'
-            = link_to 'Admins', admins_path, class: 'btn'
+            = link_to 'Admins', admins_path, class: 'nav-link'
           - elsif current_user.role == 'trader'
             %li.nav-item.dropdown
               %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#", :role => "button"}
@@ -56,6 +56,6 @@
                   = link_to 'Edit Personal Details', edit_trader_path(current_user.trader), class: 'dropdown-item'
               %li
                 = link_to 'Edit Profile', edit_user_registration_path, class: 'dropdown-item'
-          = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn'
+          = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn text-secondary'
         - else
-          = link_to 'Log in', new_user_session_path, class: 'btn'
+          = link_to 'Log in', new_user_session_path, class: 'nav-link'

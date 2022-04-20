@@ -1,6 +1,7 @@
 - if current_user.role == 'trader'
   .d-flex.flex-row.my-3.align-items-center.justify-content-between
-  %h1 Hello Trader #{current_user.trader.first_name}
+  %h1.mb-5.text-secondary
+    Hello #{current_user.trader.first_name}
   = form_tag stocks_path, :method => 'get' do
     .d-flex.flex-row.mx-sm-3.align-items-center
       =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
@@ -10,6 +11,7 @@
   - if !account_setup
     =render 'account_setup'   
 - else 
-  %h1 Hello Admin #{current_user.admin.first_name}
+  %h1.mb-5.text-secondary
+    Hello #{current_user.admin.first_name}
   = render 'admin_home'
 

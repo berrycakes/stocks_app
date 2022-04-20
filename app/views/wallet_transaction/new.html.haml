@@ -1,15 +1,18 @@
-= @wallet_transaction.wallet.balance
+%p.mb-3.text-secondary.fs-3
+  Buying Power:
+  %span.text-primary 
+    = display_currency(@wallet_transaction.wallet.balance)
 
 = form_with model: @wallet_transaction, class: 'row g-2' do |form|
   .field.form-floating.mb-3
-    = form.select :transaction_type, ['Deposit',  'Withdraw'], {}, class: 'form-select', placeholder: 'Transaction Type'
+    = form.select :transaction_type, ['Deposit',  'Withdraw'], {}, class: 'form-select text-primary', placeholder: 'Transaction Type'
     = form.label :transaction_type, 'Transaction Type'
   - if @wallet_transaction.errors.full_messages_for(:amount).any?
     - @wallet_transaction.errors.full_messages_for(:amount).each do |error|
       .text-danger= error
   .field.form-floating.mb-3
-    = form.number_field :amount, class: 'form-control', placeholder: 'Amount'
+    = form.number_field :amount, class: 'form-control text-primary', placeholder: 'Amount'
     = form.label :amount, 'Amount'
   .actions
-    = form.submit 'Submit', class: 'btn btn-outline-success'
+    = form.submit 'Submit', class: 'btn btn-outline-success mb-2'
 = link_to "Back", :back

@@ -1,16 +1,23 @@
-%h2.mb-3 Account Overview
+%h2.mb-5.text-secondary Account Overview
 .row
   .col-6
-    .card.text-white.bg-primary.mb-3
-      .card-header.bg-secondary
-        %h5.card-title.fs-2 Personal Details
+    .card.text-primary.bg-light.mb-3.shadow
+      .card-header.bg-primary
+        %h5.card-title.fs-2.text-white Personal Details
       .card-body
-        %p.card-text.fs-4 Name: #{@trader.first_name} #{@trader.last_name}
-        %p.card-text.fs-4 Email: #{@trader.user.email}
-        %p.card-text.fs-4 Mobile: #{@trader.mobile_number}
+        %p.card-text.fs-4
+          %span.text-secondary Name:
+          %span #{@trader.first_name} #{@trader.last_name}
+        %p.card-text.fs-4
+          %span.text-secondary Email:
+          %span #{@trader.user.email}
+        %p.card-text.fs-4
+          %span.text-secondary Mobile:
+          %span #{@trader.mobile_number}
   .col-6
-    .card.text-white.bg-primary.mb-3
-      .card-header.bg-secondary
+    .card.text-primary.bg-light.mb-3.shadow
+      .card-header.bg-primary.text-white
         %h5.card-title.fs-2 Wallet
       .card-body
-        %p.card-text.fs-4 You currently have #{display_currency(@trader.wallet.balance)} in your wallet 
+        %p.card-text.fs-4.text-secondary You currently have
+        %h2.text-primary.px-3 #{display_currency(@trader.wallet.balance)}
