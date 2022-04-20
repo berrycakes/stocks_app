@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Trader Management', type: :feature do
-  let(:admin) { create(:admin) }
+  let!(:admin) { create(:user, :admin) }
   let(:trader) { create(:trader) }
 
   before :each do
@@ -38,7 +38,7 @@ RSpec.feature 'Trader Management', type: :feature do
   end
 
   scenario 'Admin can edit trader info' do
-    user = create(:user, id: 3, email: 'edittrader@email.com')
+    user = create(:user, :trader, id: 3, email: 'edittrader@email.com')
 
     visit '/admins/traders/3/edit'
     expect(page).to have_text('Edit')
