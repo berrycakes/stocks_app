@@ -94,7 +94,7 @@ RSpec.describe Transaction, type: :model do
             buy_transaction.save
 
             expect(buy_transaction).to be_valid
-            expect(stock.available_shares(trader.id)). to eq(2)
+            expect(stock.available_shares(trader.id)).to eq(2)
         end
 
         it 'prevent buying and raise error with insufficient balance' do
