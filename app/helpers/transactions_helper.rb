@@ -65,7 +65,8 @@ module TransactionsHelper
             end
         end
         profit_loss = total_value - total_average_value
-        percent = (profit_loss / total_average_value ) * 100
+
+        percent = total_average_value != 0 ? (profit_loss / total_average_value ) * 100 : 0
         return {total_value: total_value, amount: profit_loss, percent: percent}
     end
 

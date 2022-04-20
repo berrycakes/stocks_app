@@ -9,10 +9,8 @@ RSpec.describe Transaction, type: :model do
     let!(:sell_transaction) {Transaction.new(id: 2, stock_id: 100, stock_share: 2, price: 2000, transaction_type: "sell", date: DateTime.now, trader_id: 100)}
         
     context 'date' do
-        date_blank = Transaction.create(date: nil)
-        date_later = Transaction.create(date: Date.new(2099))
-
         it 'raise error when empty' do
+            date_blank = Transaction.create(date: nil)
             expect(date_blank).to_not be_valid
             expect(date_blank.errors).to be_present
             expect(date_blank.errors.to_hash.keys).to include(:date)
@@ -20,6 +18,7 @@ RSpec.describe Transaction, type: :model do
         end
 
         it 'raise error if date is later than current date' do
+            date_later = Transaction.create(date: Date.new(2099))
             expect(date_later).to_not be_valid
             expect(date_later.errors).to be_present
             expect(date_later.errors.to_hash.keys).to include(:date)
@@ -28,10 +27,8 @@ RSpec.describe Transaction, type: :model do
     end
 
     context 'transaction type' do
-        type_blank = Transaction.create(transaction_type: nil)
-        type_wrong = Transaction.create(transaction_type: "wrong")
-
         it 'raise error when empty' do
+            type_blank = Transaction.create(transaction_type: nil)
             expect(type_blank).to_not be_valid
             expect(type_blank.errors).to be_present
             expect(type_blank.errors.to_hash.keys).to include(:transaction_type)
@@ -39,6 +36,7 @@ RSpec.describe Transaction, type: :model do
         end
 
         it 'raise error if transaction type is not buy or sell' do
+            type_wrong = Transaction.create(transaction_type: "wrong")
             expect(type_wrong).to_not be_valid
             expect(type_wrong.errors).to be_present
             expect(type_wrong.errors.to_hash.keys).to include(:transaction_type)
@@ -47,10 +45,8 @@ RSpec.describe Transaction, type: :model do
     end
 
     context 'stock share' do
-        stock_share_blank = Transaction.create(stock_share: nil)
-        stock_share_zero = Transaction.create(stock_share: 0)
-
         it 'raise error when empty' do
+            stock_share_blank = Transaction.create(stock_share: nil)
             expect(stock_share_blank).to_not be_valid
             expect(stock_share_blank.errors).to be_present
             expect(stock_share_blank.errors.to_hash.keys).to include(:stock_share)
@@ -58,6 +54,7 @@ RSpec.describe Transaction, type: :model do
         end
 
         it 'raise error if stock share is zero' do
+            stock_share_zero = Transaction.create(stock_share: 0)
             expect(stock_share_zero).to_not be_valid
             expect(stock_share_zero.errors).to be_present
             expect(stock_share_zero.errors.to_hash.keys).to include(:stock_share)
@@ -66,10 +63,8 @@ RSpec.describe Transaction, type: :model do
     end
 
     context 'price' do
-        price_blank = Transaction.create(price: nil)
-        price_zero = Transaction.create(price: 0)
-
         it 'raise error when empty' do
+            price_blank = Transaction.create(price: nil)
             expect(price_blank).to_not be_valid
             expect(price_blank.errors).to be_present
             expect(price_blank.errors.to_hash.keys).to include(:price)
@@ -77,6 +72,7 @@ RSpec.describe Transaction, type: :model do
         end
 
         it 'raise error if stock share is zero' do
+            price_zero = Transaction.create(price: 0)
             expect(price_zero).to_not be_valid
             expect(price_zero.errors).to be_present
             expect(price_zero.errors.to_hash.keys).to include(:price)
@@ -96,8 +92,7 @@ RSpec.describe Transaction, type: :model do
         it 'buy stock and update stock shares with sufficient balance ' do
             allow(buy_transaction.stock).to receive(:current_price).and_return(2000)
             buy_transaction.save
-            
-            expect(buy_transaction.purchase_value).to eq(4000)
+
             expect(buy_transaction).to be_valid
             expect(stock.available_shares(trader.id)). to eq(2)
         end
@@ -141,6 +136,7 @@ RSpec.describe Transaction, type: :model do
             allow(buy_transaction.stock).to receive(:current_price).and_return(2000)
             buy_transaction.save
             expect(buy_transaction).to be_valid  
+            
             
             sell_transaction.stock_share = 5 
             allow(sell_transaction.stock).to receive(:current_price).and_return(5000)
