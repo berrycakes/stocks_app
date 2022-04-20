@@ -1,18 +1,12 @@
 = @wallet_transaction.wallet.balance
 
 = form_with model: @wallet_transaction, class: 'row g-2' do |form|
-  - if @wallet_transaction.errors.any?
-    #error_explanation.alert.alert-danger{:role => "alert"}
-      %h4.alert-heading
-        = pluralize(@wallet_transaction.errors.count, "error")
-        prohibited this wallet_transaction from being saved:
-      %hr/
-      %ul
-        - @wallet_transaction.errors.each do |error|
-          %li= error.full_message
   .field.form-floating.mb-3
     = form.select :transaction_type, ['Deposit',  'Withdraw'], {}, class: 'form-select', placeholder: 'Transaction Type'
     = form.label :transaction_type, 'Transaction Type'
+  - if @wallet_transaction.errors.full_messages_for(:amount).any?
+    - @wallet_transaction.errors.full_messages_for(:amount).each do |error|
+      .text-danger= error
   .field.form-floating.mb-3
     = form.number_field :amount, class: 'form-control', placeholder: 'Amount'
     = form.label :amount, 'Amount'

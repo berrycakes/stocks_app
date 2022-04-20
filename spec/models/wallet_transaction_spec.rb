@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe WalletTransaction, type: :model do
   describe '.total_deposit' do
-    let(:deposit_transaction) { create(:wallet_transaction) }
+    let(:trader) { create(:trader) }
 
     it 'includes transactions with deposit types' do
-      expect(WalletTransaction.total_deposit).to include(deposit_transaction)
+      expect(WalletTransaction.total_deposit)
+        .to include(trader.wallet.wallet_transactions.find_by(transaction_type: 'Deposit'))
     end
   end
 
-  # Wallet transaction deposits 1000
   let(:wallet_transaction) { build(:wallet_transaction) }
   let(:wallet) do
     Wallet.new(
@@ -23,11 +23,12 @@ RSpec.describe WalletTransaction, type: :model do
       amount: 500
     )
   end
-
   describe '#update_balance' do
     context 'updates wallet balance' do
       it 'deposits' do
-        expect { wallet_transaction.update_balance }.to change { wallet_transaction.wallet.balance }.from(0).to(1000)
+        expect { wallet_transaction.update_balance }.to change {
+                                                          wallet_transaction.wallet.balance
+                                                        }.from(100_000).to(200_000)
       end
 
       it 'withdraws' do
@@ -62,12 +63,12 @@ RSpec.describe WalletTransaction, type: :model do
     end
 
     it 'not enough balance for withdrawal' do
-      new_transaction.amount = 2000
+      new_transaction.amount = 200_000
 
       expect(new_transaction).to_not be_valid
       expect(new_transaction.errors).to be_present
       expect(new_transaction.errors.to_hash.keys).to include(:amount)
-      expect(new_transaction.errors[:amount]).to include('Insufficient Balance for withdrawal')
+      expect(new_transaction.errors[:amount]).to include('exceeds balance for withdrawal')
     end
   end
 end

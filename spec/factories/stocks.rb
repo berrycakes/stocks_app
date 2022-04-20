@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :stock do
     id { 1 }
-    slug { 'bitcoin' }
-    symbol { 'btc' }
-    name { 'Bitcoin' }
-    max_supply { 21_000_000 }
-    image {"https://correctformat.com"}
+    slug { 'solana' }
+    symbol { 'sol' }
+    name { 'Solana' }
+    image { 'https://assets.coingecko.com/coins/images/4128/large/solana.png?1640133422' }
+    max_supply { nil }
   end
 end

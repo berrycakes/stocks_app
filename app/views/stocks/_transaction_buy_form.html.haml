@@ -16,7 +16,7 @@
       .text-secondary.text-start= "Available: "
       .text-secondary.text-end=display_currency(current_user.trader.wallet.balance)
     .input-group.mb-3
-      = form.text_field :stock_share, :min=>0, :max=>get_max_buy(@stock), :class => "form-control", :value=>"0"
+      = form.text_field :stock_share, :min=>0, :max=>get_max_buy(@stock), :class => "form-control", :value=>"0", placeholder: 'Buy Investment Shares'
       %span.input-group-text#basic-addon2= @stock.symbol.upcase
     = form.range_field :range_share, :min=>0, :max=>get_max_buy(@stock), :class=>"slide", :id=>"slider", :value=>"0"
     - if transaction.errors.full_messages_for(:stock_share).any?

@@ -11,4 +11,4 @@
       %tr
         %td #{trader.first_name} #{trader.last_name}
         %td= trader.user.email
-        %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: "Approve #{trader.user.email}?" }, class: 'btn btn-outline-primary'
+        %td= button_to 'Approve', trader_approved_path(trader), method: :patch, data: { confirm: "Approve #{trader.user.email}?" }, class: 'btn btn-outline-primary', id: "approve_#{trader.id}"

@@ -9,7 +9,7 @@ class WalletTransaction < ApplicationRecord
   def enough_balance_for_withdrawal
     return unless transaction_type == 'Withdraw' && amount > wallet.balance
 
-    errors.add(:amount, 'Insufficient Balance for withdrawal')
+    errors.add(:amount, 'exceeds balance for withdrawal')
   end
 
   def update_balance

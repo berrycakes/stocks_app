@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context 'validations' do
-    let!(:user) { build(:user) }
+    let!(:user) { build(:user, :trader) }
 
     it 'is valid with valid attributes' do
       expect(user).to be_valid
@@ -45,6 +45,16 @@ RSpec.describe User, type: :model do
         expect(user.errors).to be_present
         expect(user.errors.to_hash.keys).to include(:password)
         expect(user.errors[:password]).to include("can't be blank")
+      end
+
+      it 'is invalid if password is not same with confirmation' do
+        user.password = 'password'
+        user.password_confirmation = 'paswords'
+
+        expect(user).to_not be_valid
+        expect(user.errors).to be_present
+        expect(user.errors.to_hash.keys).to include(:password_confirmation)
+        expect(user.errors[:password_confirmation]).to include("doesn't match Password")
       end
     end
   end

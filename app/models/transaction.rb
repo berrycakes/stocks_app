@@ -38,7 +38,7 @@ class Transaction < ApplicationRecord
   def current_price
     stock.current_price
   end
-  
+
   def current_value
     current_price * stock_share
   end

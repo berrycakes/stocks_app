@@ -1,24 +1,33 @@
 %h4.mb-3 Create Account
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render "devise/shared/error_messages", resource: resource
+  -# = render "devise/shared/error_messages", resource: resource
   .field.form-floating.mb-4.col-6
     - if user_signed_in? && current_user.role == 'admin'
       = f.select :role, role_options, {}, {class: 'form-select'}
     - else
       = f.select :role, no_admin_role_options, {}, {class: 'form-select'}
     = f.label :role
+  - if resource.errors.full_messages_for(:email).any?
+    - resource.errors.full_messages_for(:email).each do |error|
+      .text-danger= error
   .field.form-floating.mb-4.col-6
-    = f.email_field :email, class: 'form-control', placeholder: 'Email', autofocus: true, autocomplete: "email"
+    = f.email_field :email, class: 'form-control', placeholder: 'Email', autofocus: true
     = f.label :email, 'Email', class: 'form-label'
+  - if resource.errors.full_messages_for(:password).any?
+    - resource.errors.full_messages_for(:password).each do |error|
+      .text-danger= error
   .field.form-floating.mb-4.col-6
     = f.password_field :password, class: 'form-control', placeholder: 'Password', autocomplete: "new-password"
     = f.label :password, 'Password', class: 'form-label'
     - if @minimum_password_length
       %em.ms-2
         (#{@minimum_password_length} characters minimum)
-
+  - if resource.errors.full_messages_for(:password_confirmation).any?
+    - resource.errors.full_messages_for(:password_confirmation).each do |error|
+      .text-danger= error
   .field.form-floating.mb-4.col-6
     = f.password_field :password_confirmation, class: 'form-control', placeholder: "Password Confirmation", autocomplete: "new-password"
     = f.label :password_confirmation, 'Password Confirmation', class: 'form-label'
+
   .actions
     = f.submit "Submit", class: 'btn btn-outline-primary mb-3'

@@ -1,9 +1,16 @@
 FactoryBot.define do
   factory :trader do
     id { 1 }
-    first_name { 'juan' }
-    last_name { 'cruz' }
+    first_name { 'Juan' }
+    last_name { 'Cruz' }
     mobile_number { '111-222' }
-    user
+    association :user, :trader
+
+    after(:create) do |trader|
+      trader.build_wallet(id: 1, balance: 0)
+      trader.wallet.wallet_transactions.build(attributes_for(:wallet_transaction))
+      trader.save
+      trader.reload
+    end
   end
 end
