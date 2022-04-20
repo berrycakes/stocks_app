@@ -14,6 +14,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: 'You are not authorized to visit that domain'
   end
 
+  def authenticate_approval
+    return if current_user.trader.approved == true
+
+    redirect_to root_path, alert: 'Forbidden path. Please wait for your approval.'
+  end
+
   # Add nested attributes/strong parameters for devise user
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
