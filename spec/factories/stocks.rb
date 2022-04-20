@@ -5,5 +5,6 @@ FactoryBot.define do
     symbol { 'btc' }
     name { 'Bitcoin' }
     max_supply { 21_000_000 }
+    image {"https://correctformat.com"}
   end
 end

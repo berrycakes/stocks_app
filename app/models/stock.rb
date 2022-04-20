@@ -31,36 +31,36 @@ class Stock < ApplicationRecord
     end
     
     def current_price
-        self.get_data()[0].dig("current_price")
+        self.get_data[0].dig("current_price")
     end
 
     def current_market_cap
-        self.get_data()[0].dig("market_cap")
+        self.get_data[0].dig("market_cap")
     end
 
     def current_daily_high
-        self.get_data()[0].dig("high_24h")
+        self.get_data[0].dig("high_24h")
     end
 
     def current_daily_low
-        self.get_data()[0].dig("low_24h")
+        self.get_data[0].dig("low_24h")
     end
 
     def current_daily_change
-        self.get_data()[0].dig("price_change_percentage_24h")
+        self.get_data[0].dig("price_change_percentage_24h")
     end
 
     def current_ath
-        self.get_data()[0].dig("ath")
+        self.get_data[0].dig("ath")
     end
 
     def daily_volume
-        self.get_data()[0].dig("total_volume")
+        self.get_data[0].dig("total_volume")
     end
 
     # used for minicharts
     def weekly_sparkline
-        self.get_data()[0].dig("sparkline_in_7d", "price")
+        self.get_data[0].dig("sparkline_in_7d", "price")
     end
 
     # used for individual big charts
