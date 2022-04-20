@@ -5,17 +5,19 @@
     = form_tag stocks_path, :method => 'get' do
       .d-flex.flex-row.mx-sm-3.align-items-center
         =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
-        =submit_tag "Search", :name => nil, :class => "btn btn-warning p-2"
+        =submit_tag "Search", :name => nil, :class => "btn btn-primary text-white p-2"
+ 
   .px-5
     %table.table.table-hover.align-middle
       %thead
         %tr
           %th
-          %th Stock Name
-          %th Current Price
-          %th.text-center 24h Change
-          %th.text-center 24h Volume
-          %th.text-center Market Cap
+          -# %th Stock Name
+          %th= sort_link(@q, :name, "Stock Name") 
+          %th= sort_link(@q, :current_price, "Current Price") 
+          %th.text-center=  sort_link(@q, :current_daily_change, "24h Change") 
+          %th.text-center=  sort_link(@q, :current_daily_volume, "24h Volume")  
+          %th.text-center=  sort_link(@q, :current_market_cap, "Market Cap")  
           %th
       %tbody
         - @stocks.each do |stock|

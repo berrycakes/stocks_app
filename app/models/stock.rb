@@ -14,7 +14,6 @@ class Stock < ApplicationRecord
     @@market_data = []
 
     def self.get_market_data(currency)
-        # ids = Stock.select(:slug).map(&:slug).join(",")
         url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=#{currency.parameterize}&order=market_cap_desc&per_page=250&page=1&sparkline=true"
         request = HTTParty.get(url)
         response = JSON.parse(request.body)
@@ -87,5 +86,4 @@ class Stock < ApplicationRecord
             Stock.all
         end
     end
-
 end

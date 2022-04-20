@@ -71,3 +71,6 @@ gem 'apexcharts', '~> 0.1.10'
 
 # for pagination
 gem 'kaminari'
+
+# for sorting
+gem 'ransack'

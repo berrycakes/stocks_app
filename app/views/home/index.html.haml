@@ -4,7 +4,7 @@
   = form_tag stocks_path, :method => 'get' do
     .d-flex.flex-row.mx-sm-3.align-items-center
       =text_field_tag :search, params[:search], :placeholder => "Search Stocks", :class => "form-control m-3 p-2"
-      =submit_tag "Search", :name => nil, :class => "btn btn-warning p-2"
+      =submit_tag "Search", :name => nil, :class => "btn btn-primary text-white p-2"
   - if current_user.trader.transactions.count > 0 || current_user.trader.wallet.balance > 0
     = render 'trader_view'
   - if !account_setup
