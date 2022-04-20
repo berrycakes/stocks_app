@@ -26,6 +26,6 @@
     .d-flex.flex-row.justify-content-between.mt-5
       .text-secondary.text-start= "Total Amount"
       .text-secondary.text-end#total_amount_container= display_simple_currency(0.00)
-    = form.submit "Buy #{@stock.name.titleize}", class: 'btn btn-success w-100 p-2', data: { confirm: "Are you sure you want to buy #{@stock.name.titleize}?" }
+    = form.submit "BUY #{@stock.name.titleize}", class: 'btn btn-success text-white w-100 p-2', data: { confirm: "Are you sure you want to buy #{@stock.name.titleize}?" }
 
 

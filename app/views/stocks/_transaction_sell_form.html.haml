@@ -30,4 +30,4 @@
       -else
         .text-secondary.text-end#total_amount_container= display_simple_currency(0)
       
-    = form.submit "Sell #{@stock.name.titleize}", class: 'btn btn-danger w-100 p-2', data: { confirm: "Are you sure you want to sell #{@stock.name.titleize}?" }
+    = form.submit "SELL #{@stock.name.titleize}", class: 'btn btn-danger text-white w-100 p-2', data: { confirm: "Are you sure you want to sell #{@stock.name.titleize}?" }

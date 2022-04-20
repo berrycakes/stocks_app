@@ -49,22 +49,24 @@ module TransactionsHelper
     assets
   end
 
-  # profit for currently owned assets
-  def current_profit_loss
-    total_value = 0
-    total_average_value = 0
-    # percent = profit_loss / total_value
-    current_user.trader.stocks.distinct.each do |stock|
-      next unless stock.available_shares(current_user.trader.id) > 0
 
-      value = (stock.available_shares(current_user.trader.id) * stock.current_price)
-      average_value = stock.available_shares(current_user.trader.id) * get_average_purchase_price(stock.id)
-      total_average_value += average_value
-      total_value += value
-      # amount += value - average_value
+    # profit for currently owned assets
+    def current_profit_loss
+        total_value = 0
+        total_average_value = 0
+        # percent = profit_loss / total_value
+        current_user.trader.stocks.distinct.each do |stock|
+            if stock.available_shares(current_user.trader.id) > 0
+                value = (stock.available_shares(current_user.trader.id) * stock.current_price)
+                average_value = stock.available_shares(current_user.trader.id) * get_average_purchase_price(stock.id)
+                total_average_value += average_value
+                total_value += value
+                # amount += value - average_value
+            end
+        end
+        profit_loss = total_value - total_average_value
+
+        percent = total_average_value != 0 ? (profit_loss / total_average_value ) * 100 : 0
+        return {total_value: total_value, amount: profit_loss, percent: percent}
     end
-    profit_loss = total_value - total_average_value
-    percent = total_average_value != 0 ? (profit_loss / total_average_value) * 100 : 0
-    { total_value: total_value, amount: profit_loss, percent: percent }
-  end
 end

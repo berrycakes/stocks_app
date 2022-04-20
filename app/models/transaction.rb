@@ -3,11 +3,32 @@ class Transaction < ApplicationRecord
   belongs_to :trader
 
   validates :date, presence: true
-  validates :transaction_type, presence: true
-  validates :stock_share, presence: true
-  validates :stock_share, numericality: { greater_than: 0 }
+  validate :correct_date
+  validates :transaction_type, presence: true, inclusion: { in: %w(buy sell), message: "only accepts buy or sell"} 
+  validates :stock_share, presence: true, numericality: {:greater_than => 0}
+  validates :price, presence:true, numericality: {:greater_than => 0}
   validate :sufficient_balance
   after_create :update_balance
+
+  def correct_date
+    if self.date 
+      if self.date > DateTime.now
+        errors.add(:date, "should not be later than today" )
+      end
+    end
+  end
+
+  def sufficient_balance
+    if stock_share
+      if transaction_type == "buy" && self.current_value > trader.wallet.balance
+        errors.add(:stock_share, "should be decreased. Insufficient balance")
+      end
+
+      if transaction_type == "sell" && stock_share > self.stock.available_shares(trader_id)
+        errors.add(:stock_share, "greater than available. Insufficient balance")
+      end 
+    end
+  end
 
   # actual total price at the time of purchase
   def purchase_value
@@ -29,20 +50,6 @@ class Transaction < ApplicationRecord
   def percent_change
     (current_value - purchase_value) / purchase_value
   end
-
-  def sufficient_balance
-    if stock_share
-      if transaction_type == 'buy' && current_value > trader.wallet.balance
-        errors.add(:stock_share, 'insufficient balance')
-      end
-
-      if transaction_type == 'sell' && stock_share > Stock.find(stock_id).available_shares(trader_id)
-        errors.add(:stock_share, 'greater than available. Insufficient balance')
-      end
-    end
-  end
-
-  private
 
   # Updates wallet balance after succesful transaction
   def update_balance

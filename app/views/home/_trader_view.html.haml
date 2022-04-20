@@ -1,19 +1,19 @@
-.d-flex.flex-row.justify-content-around.align-items-center.shadow.rounded.py-4.mx-5.mb-5
-    .d-flex.flex-column
+.d-flex.flex-row.justify-content-around.align-items-center.mb-5
+    .d-flex.flex-column.shadow.rounded.p-5
         %h5.text-secondary="Cash Balance"
-        %h3.px-3="#{display_currency(current_user.trader.wallet.balance)}"
-    .d-flex.flex-column
+        %h2.text-primary.px-3="#{display_currency(current_user.trader.wallet.balance)}"
+    .d-flex.flex-column.shadow.rounded.p-5
         %h5.text-secondary="Portfolio Value"
-        %h3.px-3="#{display_currency(current_profit_loss[:total_value])}"
-    .d-flex.flex-column
+        %h2.text-primary.px-3="#{display_currency(current_profit_loss[:total_value])}"
+    .d-flex.flex-column.shadow.rounded.p-5
         %h5.text-secondary="Portfolio Profit & Loss"
         .d-flex.flex-row.align-items-center
-        -if current_profit_loss[:amount] > 0
-            %h3.px-3.text-success="#{display_currency(current_profit_loss[:amount])}"
-        -else current_profit_loss[:amount] > 0
-            %h3.px-3.text-danger="#{display_currency(current_profit_loss[:amount])}"
-        %h6.text-muted.px-2="(#{number_to_percentage(current_profit_loss[:percent])})"
-
+            -if current_profit_loss[:amount] > 0
+                %h2.px-3.text-success="#{display_currency(current_profit_loss[:amount])}"
+            -else current_profit_loss[:amount] > 0
+                %h2.px-3.text-danger="#{display_currency(current_profit_loss[:amount])}"
+            %h6.text-muted.px-2="(#{number_to_percentage(current_profit_loss[:percent])})"         
+    
 - if current_user.trader.watches && current_user.trader.watches != []
     %h2 My Watchlist
     .px-5
