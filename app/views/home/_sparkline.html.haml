@@ -1,4 +1,4 @@
-- trend_colors = stock.current_daily_change < 0 ? ['#B8202E', '#F7D1D4'] : ['#1D7A32', '#9FE8AF']
+- trend_colors = stock.current_daily_change < 0 ? ['#DF475B'] : ['#1b998b']
 - sparkline_data = stock.weekly_sparkline.each_with_index.map { |x, i| [i, x]}
 - options = {chart: {sparkline: {enabled: true }, height: 50, width: 140}, stroke: {width: 1.5}, colors: trend_colors}
 %td.d-flex.flex-row.justify-content-center= line_chart(sparkline_data, options)

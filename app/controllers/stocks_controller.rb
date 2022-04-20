@@ -4,12 +4,14 @@ class StocksController < ApplicationController
   def index
     # @stocks = Stock.page(params[:page])
     @stocks = Stock.search(params[:search])
+
+
     if @stocks.class == Array
       @stocks = Kaminari.paginate_array(@stocks).page(params[:page])
     else
       @stocks = @stocks.page(params[:page]) 
     end
-    # @query = Stock.search(params[:search])
+
   end
 
   # GET /stocks/1 or /stocks/1.json
