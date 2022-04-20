@@ -5,7 +5,7 @@ class Transaction < ApplicationRecord
   validates :date, presence: true
   validates :transaction_type, presence: true
   validates :stock_share, presence: true
-  validates :stock_share, numericality: {:greater_than => 0}
+  validates :stock_share, numericality: { greater_than: 0 }
   validate :sufficient_balance
   after_create :update_balance
 
@@ -17,7 +17,7 @@ class Transaction < ApplicationRecord
   def current_price
     stock.current_price
   end
-  
+
   def current_value
     current_price * stock_share
   end
@@ -32,13 +32,13 @@ class Transaction < ApplicationRecord
 
   def sufficient_balance
     if stock_share
-      if transaction_type == "buy" && self.current_value > trader.wallet.balance
-        errors.add(:stock_share, "insufficient balance")
+      if transaction_type == 'buy' && current_value > trader.wallet.balance
+        errors.add(:stock_share, 'insufficient balance')
       end
 
-      if transaction_type == "sell" && stock_share > Stock.find(stock_id).available_shares(current_user.trader.id)
-        errors.add(:stock_share, "greater than available. Insufficient balance")
-      end 
+      if transaction_type == 'sell' && stock_share > Stock.find(stock_id).available_shares(trader_id)
+        errors.add(:stock_share, 'greater than available. Insufficient balance')
+      end
     end
   end
 
