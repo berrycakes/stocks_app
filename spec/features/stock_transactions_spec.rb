@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Stock Transactions', type: :feature do
-  let!(:transaction) do
-    create(:transaction) do |transaction|
-      transaction.trader.approved = true
-      transaction.save
-    end
-  end
+  let!(:transaction) { create(:transaction) }
   let(:trader) { transaction.trader }
   before :each do
     sign_in trader.user
