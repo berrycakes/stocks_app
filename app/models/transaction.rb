@@ -24,7 +24,7 @@ class Transaction < ApplicationRecord
         errors.add(:stock_share, "should be decreased. Insufficient balance")
       end
 
-      if transaction_type == "sell" && stock_share > self.stock.available_shares(self.trader_id)
+      if transaction_type == "sell" && stock_share > self.stock.available_shares(trader_id)
         errors.add(:stock_share, "greater than available. Insufficient balance")
       end 
     end
@@ -50,8 +50,6 @@ class Transaction < ApplicationRecord
   def percent_change
     (current_value - purchase_value) / purchase_value
   end
-
-  private
 
   # Updates wallet balance after succesful transaction
   def update_balance
