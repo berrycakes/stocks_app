@@ -6,6 +6,6 @@ FactoryBot.define do
     transaction_type { 'buy' }
     date { Time.now }
     stock
-    trader
+    association :trader, :approved
   end
 end
