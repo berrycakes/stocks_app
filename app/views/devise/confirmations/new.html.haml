@@ -1,10 +1,9 @@
-%h2 Resend confirmation instructions
+%h2.mb-5.text-secondary Resend confirmation instructions
 = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+  .field.form-floating.mb-4.col-6
+    = f.email_field :email, class: 'form-control', autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+    = f.label :email, 'Email', class: 'form-label'
   .actions
-    = f.submit "Resend confirmation instructions"
+    = f.submit "Resend confirmation instructions", class: 'mb-3 btn btn-outline-primary'
 = render "devise/shared/links"
