@@ -1,5 +1,10 @@
-%h2 Account Overview
+%h2.mb-3 Account Overview
 .row
-  %p #{@admin.first_name} #{@admin.last_name}
-  %p= @admin.user.email
-  %p Contact Number: #{@admin.mobile_number}
+  .col-6
+    .card.text-white.bg-primary.mb-3
+      .card-header.bg-secondary
+        %h5.card-title.fs-2 Personal Details
+      .card-body
+        %p.card-text.fs-4 Name: #{@admin.first_name} #{@admin.last_name}
+        %p.card-text.fs-4 Email: #{@admin.user.email}
+        %p.card-text.fs-4 Mobile: #{@admin.mobile_number}
