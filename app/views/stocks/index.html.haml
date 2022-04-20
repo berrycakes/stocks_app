@@ -14,10 +14,10 @@
           %th
           -# %th Stock Name
           %th= sort_link(@q, :name, "Stock Name") 
-          %th Current Price
-          %th.text-center 24h Change
-          %th.text-center 24h Volume
-          %th.text-center Market Cap
+          %th= sort_link(@q, :current_price, "Current Price") 
+          %th.text-center=  sort_link(@q, :current_daily_change, "24h Change") 
+          %th.text-center=  sort_link(@q, :current_daily_volume, "24h Volume")  
+          %th.text-center=  sort_link(@q, :current_market_cap, "Market Cap")  
           %th
       %tbody
         - @stocks.each do |stock|
