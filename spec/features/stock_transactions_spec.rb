@@ -21,6 +21,7 @@ RSpec.feature 'Stock Transactions', type: :feature do
     expect(trader.reload.transactions.last).not_to be_nil
     expect(trader.reload.transactions.last.stock_share).to eql(5)
     expect(trader.reload.transactions.last.stock.name).to eql('Solana')
+    expect(trader.reload.wallet.balance).to be < 100_000
   end
 
   scenario 'Trader can sell a stock' do
