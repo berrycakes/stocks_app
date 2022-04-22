@@ -14,5 +14,15 @@ FactoryBot.define do
       email { 'juan@email.com' }
       role { 1 }
     end
+
+    trait :approved do
+      after(:create) do |user|
+        user.trader.approved = true
+        user.trader.wallet.balance = 100_000
+        user.trader.wallet.save
+        user.save
+        user.reload
+      end
+    end
   end
 end

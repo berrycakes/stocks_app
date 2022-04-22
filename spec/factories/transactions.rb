@@ -5,7 +5,7 @@ FactoryBot.define do
     price { 5000 }
     transaction_type { 'buy' }
     date { Time.now }
-    stock
-    association :trader, :approved
+    trader_id { 1 }
+    stock_id { 1 }
   end
 end
