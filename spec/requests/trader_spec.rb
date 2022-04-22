@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe '/traders', type: :request do
   let!(:admin) { create(:user, :admin) }
-  let!(:trader) { create(:trader) }
+  let!(:trader) { create(:trader, :approved) }
 
   before :each do
     sign_in admin

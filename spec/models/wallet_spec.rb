@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Wallet, type: :model do
   describe '#total_balance' do
-    let!(:trader) { create(:trader) }
+    let!(:trader) { create(:trader, :approved) }
 
     it 'shows total money deposited by the user' do
       trader.wallet.wallet_transactions.create(

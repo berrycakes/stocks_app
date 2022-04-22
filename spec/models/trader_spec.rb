@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Trader, type: :model do
   # Wallet contains 100,000
-  let!(:trader) { create(:trader) }
+  let!(:trader) { create(:trader, :approved) }
   let!(:transaction) { build(:transaction) }
 
   describe '#profit_loss' do

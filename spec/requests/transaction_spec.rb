@@ -2,8 +2,12 @@ require 'rails_helper'
 
 RSpec.describe '/traders', type: :request do
   let!(:admin) { create(:user, :admin) }
-  let!(:transaction) { create(:transaction) }
-  let(:trader) { transaction.trader }
+  let!(:stock) { create(:stock) }
+  let!(:trader) do
+    create(:user, :trader, :approved) do |user|
+      user.trader.transactions.create(attributes_for(:transaction))
+    end
+  end
 
   context 'admin' do
     describe 'GET /index' do
@@ -21,7 +25,7 @@ RSpec.describe '/traders', type: :request do
 
   context 'trader' do
     before :each do
-      sign_in trader.user
+      sign_in trader
     end
     describe 'GET /index' do
       it 'shows all the transactions the trader has' do
@@ -36,7 +40,7 @@ RSpec.describe '/traders', type: :request do
 
     describe 'GET /show' do
       it 'shows the transaction details' do
-        get transaction_path(transaction.id)
+        get transaction_path(trader.trader.transactions.first.id)
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('BUY ORDER FULFILLED')
@@ -59,9 +63,10 @@ RSpec.describe '/traders', type: :request do
     describe 'POST /transactions' do
       it 'creates a transaction to buy a stock' do
         post '/transactions',
-             params: { transaction: { stock_id: 1, trader_id: 1, transaction_type: 'buy', stock_share: 5, date: Time.now,
+             params: { transaction: { stock_id: 1, trader_id: trader.trader.id,
+                                      transaction_type: 'buy',
+                                      stock_share: 5, date: Time.now,
                                       price: 100 } }
-
         expect(response).to redirect_to(/transactions/)
         follow_redirect!
 
