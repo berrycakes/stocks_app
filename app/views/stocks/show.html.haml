@@ -33,12 +33,16 @@
   .d-flex.flex-row.mt-4.align-items-stretch.justify-content-center.h-100
     .d-flex.flex-column.align-items-stretch.justify-content-center.p-5.col-4.shadow.bg-body.rounded
       .btn-group
-        %button.btn.btn-outline-primary.active{:id => "toggle_buy_button"}= "BUY"
-        %button.btn.btn-outline-primary{:id => "toggle_sell_button"}= "SELL"
-      .h-100.w-100.d-flex.flex-column.justify-content-center.p-2{:id => "buy_container"}
-        = render 'stocks/transaction_buy_form', transaction: @transaction
-      .h-100.w-100.d-flex.flex-column.justify-content-center.p-2.d-none{:id => "sell_container"}
-        = render 'stocks/transaction_sell_form', transaction: @transaction
+        %button.btn.btn-outline-primary.active{:id => 'toggle_buy_button', :class => ('disabled' unless current_user.trader.approved)}= "BUY"
+        %button.btn.btn-outline-primary{:id => 'toggle_sell_button', :class => ('disabled' unless current_user.trader.approved)}= "SELL"
+      - if current_user.trader.approved
+        .h-100.w-100.d-flex.flex-column.justify-content-center.p-2{:id => "buy_container"}
+          = render 'stocks/transaction_buy_form', transaction: @transaction
+        .h-100.w-100.d-flex.flex-column.justify-content-center.p-2.d-none{:id => "sell_container"}
+          = render 'stocks/transaction_sell_form', transaction: @transaction
+      - else
+        .h-100.w-100.d-flex.flex-column.justify-content-center.p-2
+          %p.text-center.text-secondary.fs-4 Please wait for approval before you can start trading
       = link_to "Show #{@stock.symbol.upcase} holdings", portfolio_path + "/#{@stock.id}"
       = link_to 'Stocks', stocks_path
     =render 'stocks/candlestick_chart', stock: @stock
