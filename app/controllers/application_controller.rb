@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_approval
-    return if current_user.trader.approved == true
+    return if current_user.trader.approved
 
     redirect_to root_path, alert: 'Forbidden path. Please wait for your approval.'
   end
