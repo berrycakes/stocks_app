@@ -316,19 +316,19 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
-  devise
-  erb2haml
+  devise (~> 4.8.1)
+  erb2haml (~> 0.1.5)
   factory_bot_rails (~> 6.2.0)
-  haml
-  httparty
+  haml (~> 5.2.2)
+  httparty (~> 0.20.0)
   jbuilder (~> 2.7)
-  kaminari
+  kaminari (~> 1.2.2)
   listen (~> 3.3)
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4, >= 6.1.4.6)
-  ransack
+  ransack (~> 3.0.1)
   rspec-rails (~> 5.0.0)
   sass-rails (>= 6)
   selenium-webdriver
