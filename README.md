@@ -65,7 +65,7 @@ git clone https://github.com/berrycakes/stocks_app.git
 cd stocks_app
 ```
 
-- Install Rails API dependencies
+- Install libraries and dependencies
 
 ```bash
 bundle install
